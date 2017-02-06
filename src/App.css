@@ -1,0 +1,42 @@
+.Attributes-container {
+  height: 400px;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.Attributes-form {
+  border: 2px solid #2196F3;
+  padding: 25px;
+}
+
+.Display-button-container {
+  text-align: right;
+}
+
+.Form-buttons-container {
+  width: 100%;
+  text-align: right;
+}
+
+.header {
+  text-align: center;
+  height: 100px;
+  padding: 40px;
+}
+
+.Input-container {
+  padding: 20px;
+}
+
+.Input-grid {
+  width: 100%
+}
+
+.Json-output {
+  margin-bottom: 200px; 
+}
+
+.New-attribute-button  {
+  text-align: center;
+  padding: 40px;
+}
