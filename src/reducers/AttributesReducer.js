@@ -43,7 +43,7 @@ export default (state = INITIAL_STATE, action ) => {
               type: 'NUMBER',
               rangemax:0,
               rangemin: 0,
-              uom: '',
+              uom: 'test',
               precision: 0,
               accuracy : 0
             };
@@ -66,8 +66,14 @@ export default (state = INITIAL_STATE, action ) => {
             };
           }
           return { ...state, attributeslist: [...state.attributeslist.slice(0, attributeIndex), {...state.attributeslist[attributeIndex], datatype: { ...state.attributeslist[attributeIndex].datatype , format: formatDefaultFields } }  , ...state.attributeslist.slice(attributeIndex + 1)]};
+          case 'name':
+            return { ...state, attributeslist: [...state.attributeslist.slice(0, attributeIndex), {...state.attributeslist[attributeIndex], name: action.payload.value  }  , ...state.attributeslist.slice(attributeIndex + 1)]};
+          case 'description':
+            return { ...state, attributeslist: [...state.attributeslist.slice(0, attributeIndex), {...state.attributeslist[attributeIndex], description: action.payload.value  }  , ...state.attributeslist.slice(attributeIndex + 1)]};
+          case 'defaultvalue':
+            return { ...state, attributeslist: [...state.attributeslist.slice(0, attributeIndex), {...state.attributeslist[attributeIndex], defaultvalue: action.payload.value  }  , ...state.attributeslist.slice(attributeIndex + 1)]};
         default:
-        return state;
+         return state;
      }
     default:
       return state;

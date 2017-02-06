@@ -30,7 +30,7 @@ class Attribute extends Component {
     this.props.changeAttribute(attributeData);
   }
   componentDidUpdate() {
-    console.log(this.props);
+    //console.log(this.props);
   }
   renderDisplayButton() {
     if(this.state.showfields){
@@ -77,7 +77,7 @@ class Attribute extends Component {
             </Select>
           </Col>
           <Col xs={6} className="Input-container">
-           <Input label="Default value:" hint="Enter a default value" value={this.props.data.defaultvalue} />
+           <Input name="defaultvalue"  label="Default value:" hint="Enter a default value" value={this.props.data.defaultvalue} onChange={this.handleInputChange} />
           </Col>
         </Row>
         <Row>
@@ -122,21 +122,21 @@ class Attribute extends Component {
         <Grid className="Input-grid">
            <Row>
               <Col xs={6}>
-                  <Input label="Range" hint="Range min" />
+                  <Input label="Range" hint="Range min" value={this.props.data.datatype.format.rangemax} />
               </Col>
               <Col xs={6}>
-                  <Input label="" hint="Range max" />
+                  <Input label="" hint="Range max" value={this.props.data.datatype.format.rangemin}/>
               </Col>
            </Row>
            <Row>
              <Col xs={4}>
-                <Input label="Unit of Measurement: " hint="Uom (eg. mm)" />
+                <Input label="Unit of Measurement:" hint="Uom (eg. mm)" value={this.props.data.datatype.format.uom} />
              </Col>
              <Col xs={4}>
-               <Input label="Precision:" hint="Precision (eg. (0.5))" />
+               <Input label="Precision:" hint="Precision (eg. (0.5))" value={this.props.data.datatype.format.precision} />
              </Col>
              <Col xs={4}>
-               <Input label="Accuracy:" hint="Accuracy (eg. (0.5))" />
+               <Input label="Accuracy:" hint="Accuracy (eg. (0.5))" value={this.props.data.datatype.format.accuracy} />
              </Col>
            </Row>
         </Grid>
@@ -154,10 +154,10 @@ class Attribute extends Component {
         </Row>
         <Row>
            <Col xs={6} className="Input-container">
-              <Input label="Name:" hint="Enter a name" value={this.props.data.name} />
+              <Input name="name" label="Name:" hint="Enter a name" value={this.props.data.name} onChange={this.handleInputChange} />
            </Col>
            <Col xs={6} className="Input-container">
-              <Input label="Description:" hint="Enter a description" value={this.props.data.description} />
+              <Input name="description" label="Description:" hint="Enter a description" value={this.props.data.description} onChange={this.handleInputChange}/>
            </Col>
         </Row>
       </Grid>
