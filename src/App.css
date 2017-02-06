@@ -1,3 +1,11 @@
+input {
+  margin: 10px;
+}
+
+select {
+  margin:10px;
+}
+
 .Attributes-container {
   height: 400px;
   overflow-y: auto;
@@ -18,6 +26,10 @@
   text-align: right;
 }
 
+.form-group {
+  margin: 20px;
+}
+
 .header {
   text-align: center;
   height: 100px;
@@ -33,7 +45,7 @@
 }
 
 .Json-output {
-  margin-bottom: 200px; 
+  margin-bottom: 200px;
 }
 
 .New-attribute-button  {

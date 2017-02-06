@@ -1,167 +1,125 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeAttribute } from './../actions';
-import Input from 'muicss/lib/react/input';
-import Option from 'muicss/lib/react/option';
-import Select from 'muicss/lib/react/select';
-import Button from 'muicss/lib/react/button';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import t from 'tcomb-form';
+
+const Form = t.form.Form;
+
+const deviceRTypeOptions = t.enums({
+  devicert: 'DEFAULT VALUE'
+});
+
+const datatypeOptions = [
+  {value: 'string', text: 'STRING'},
+  {value: 'object', text: 'OBJECT'},
+];
+
+const stringFormatOptions = [
+  {value: 'none', text: 'NONE'},
+  {value: 'number', text: 'NUMBER'},
+  {value: 'boolean', text: 'BOOLEAN'},
+  {value: 'date-time', text: 'DATE-TIME'},
+  {value: 'cdata', text: 'CDATA'},
+  {value: 'uri', text: 'URI'}
+];
+
+const objectFormatOptions = [
+  {value: 'NONE', text: 'NONE'}
+];
+
+const mainAttributes = t.struct({
+  name: t.String,
+  description: t.String,
+  devicert: deviceRTypeOptions,
+  defaultvalue: t.String,
+  datat: t.Str,
+  format: t.Str,
+});
+
+const attributesWithEnumeration = t.struct({
+  name: t.String,
+  description: t.String,
+  devicert: deviceRTypeOptions,
+  defaultvalue: t.String,
+  datat: t.Str,
+  format: t.Str,
+  enumerations: t.String
+});
 
 class Attribute extends Component {
   constructor() {
     super();
     this.state = {
-      showfields: false
+      formoptions : {
+        fields: {
+          devicert: {
+            disabled: true,
+            nullOption: false,
+            label: 'Device resource type:'
+           },
+           defaultvalue: {
+             label: 'Default value: '
+           },
+           datat: {
+            factory: t.form.Select,
+            options: datatypeOptions,
+            nullOption: false,
+            label: 'Data Type'
+           },
+           format: {
+            factory: t.form.Select,
+            options: stringFormatOptions,
+            nullOption: false
+          }
+        }
+      }
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-  showFields() {
-    this.setState({ showfields: true });
-  }
-  hideFields() {
-    this.setState({ showfields: false });
-  }
-  handleInputChange(e) {
-    const attributeData = {
-      name: e.target.name,
-      value: e.target.value,
-      id: this.props.data.id
-    };
-    this.props.changeAttribute(attributeData);
+    this.inputChanged = this.inputChanged.bind(this);
   }
   componentDidUpdate() {
-    //console.log(this.props);
+    console.log(this.props.data);
   }
-  renderDisplayButton() {
-    if(this.state.showfields){
-      return(
-        <Button variant="fab" size="small" onClick={this.hideFields.bind(this)}>-</Button>
-      );
-    }
-    return(
-      <Button variant="fab" size="small" onClick={this.showFields.bind(this)}>+</Button>
-    );
-  }
-  renderFormat (){
-    if(this.props.data.datatype.type === 'STRING') {
-      return (
-        <Col xs={6} className="Input-container">
-          <Select name="format" defaultValue={this.props.data.datatype.format.type} label="Format: " onChange={this.handleInputChange}>
-            <Option value="NONE" label="NONE" />
-            <Option value="NUMBER" label="NUMBER" />
-            <Option value="BOOLEAN" label="BOOLEAN" />
-            <Option value="DATE-TIME" label="DATE-TIME" />
-            <Option value="CDATA" label="CDATA" />
-            <Option value="URI" label="URI" />
-          </Select>
-        </Col>
-      );
-    }
-   return (
-      <Col xs={6} className="Input-container">
-       <Select defaultValue="NONE" label="Format:">
-         <Option value="NONE" label="NONE" />
-        </Select>
-      </Col>
-    );
-  }
-  renderFields() {
-    if (this.state.showfields){
-      return (
-      <section>
-        <Grid className="Input-grid">
-         <Row>
-          <Col xs={6} className="Input-container">
-           <Select defaultValue={this.props.data.devicert} label="Device Resource type">
-             <Option value="Default value" label="Default value" />
-            </Select>
-          </Col>
-          <Col xs={6} className="Input-container">
-           <Input name="defaultvalue"  label="Default value:" hint="Enter a default value" value={this.props.data.defaultvalue} onChange={this.handleInputChange} />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={6} className="Input-container">
-           <Select name="datatype" defaultValue={this.props.data.datatype.type} label="Data type" onChange={this.handleInputChange}>
-             <Option value="STRING" label="String" />
-             <Option value="OBJECT" label="Object" />
-            </Select>
-          </Col>
-           {this.renderFormat()}
-        </Row>
-       </Grid>
-        {this.renderDataTypeFields()}
-     </section>
-      );
+  inputChanged(value, path) {
+    switch(path[0]) {
+      case 'datat':
+       if(value.datat === 'object'){
+         this.setState({ formoptions: {...this.state.formoptions, fields: { ...this.state.formoptions.fields, format: {...this.state.formoptions.fields.format, options: objectFormatOptions } } } });
+
+       }
+       else if(value.datat === 'string'){
+         this.setState({ formoptions: {...this.state.formoptions, fields: { ...this.state.formoptions.fields, format: {...this.state.formoptions.fields.format, options: stringFormatOptions } } } });
+       }
+       console.log('Te value has changed');
+       const attributeData = {
+         path: path[0],
+         value: value.datat,
+         id: this.props.data.id
+       };
+       this.props.changeAttribute(attributeData);
+       break;
     }
   }
-  renderDataTypeFields() {
-    if(this.props.data.datatype.format.type === 'NONE' && this.props.data.datatype.type === 'STRING'){
-      const enumerations = this.props.data.datatype.format.enumerations.map((value, key) => {
-        return (
-          <p key={key}>{value}</p>
-        );
-      });
-      return (
-        <Grid className="Input-grid">
-          <Row>
-            <Col xs={4}>
-               <Input label="Enumerations:" hint="Enter value" />
-            </Col>
-            <Col xs={2}>
-               <Button color="primary" size="small">Add</Button>
-            </Col>
-            <Col>
-               { enumerations }
-            </Col>
-          </Row>
-        </Grid>
-      );
-    } else if(this.props.data.datatype.format.type === 'NUMBER'){
-      return (
-        <Grid className="Input-grid">
-           <Row>
-              <Col xs={6}>
-                  <Input label="Range" hint="Range min" value={this.props.data.datatype.format.rangemax} />
-              </Col>
-              <Col xs={6}>
-                  <Input label="" hint="Range max" value={this.props.data.datatype.format.rangemin}/>
-              </Col>
-           </Row>
-           <Row>
-             <Col xs={4}>
-                <Input label="Unit of Measurement:" hint="Uom (eg. mm)" value={this.props.data.datatype.format.uom} />
-             </Col>
-             <Col xs={4}>
-               <Input label="Precision:" hint="Precision (eg. (0.5))" value={this.props.data.datatype.format.precision} />
-             </Col>
-             <Col xs={4}>
-               <Input label="Accuracy:" hint="Accuracy (eg. (0.5))" value={this.props.data.datatype.format.accuracy} />
-             </Col>
-           </Row>
-        </Grid>
-      );
-    }
-  }
+
   render() {
+    const { name, description, defaultvalue, datat, format } = this.props.data;
     return (
       <section>
       <Grid className="Input-grid">
         <Row>
-          <Col xs={12} className="Display-button-container">
-            {this.renderDisplayButton()}
-          </Col>
-        </Row>
-        <Row>
-           <Col xs={6} className="Input-container">
-              <Input name="name" label="Name:" hint="Enter a name" value={this.props.data.name} onChange={this.handleInputChange} />
-           </Col>
-           <Col xs={6} className="Input-container">
-              <Input name="description" label="Description:" hint="Enter a description" value={this.props.data.description} onChange={this.handleInputChange}/>
+           <Col xs={12}>
+             <div className="form-horizontal">
+               <Form
+                ref="form"
+                type={ mainAttributes }
+                onChange={this.inputChanged}
+                options={this.state.formoptions}
+                value={{ name, description, defaultvalue, datat, format }}
+               />
+             </div>
            </Col>
         </Row>
       </Grid>
-      {this.renderFields()}
     </section>
     );
   }

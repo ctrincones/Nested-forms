@@ -59,7 +59,8 @@
     "react-flexbox-grid": "^0.10.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
-    "shortid": "^2.2.6"
+    "shortid": "^2.2.6",
+    "tcomb-form": "^0.9.10"
   },
   "scripts": {
     "start": "node scripts/start.js",

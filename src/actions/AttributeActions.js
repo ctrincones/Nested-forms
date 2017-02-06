@@ -5,18 +5,12 @@ export const createNewAttribute = (category) => {
   const attributeModel = {
     id: shortid.generate(),
     category,
-    name: '',
-    description: '',
-    devicert: 'Default value',
-    defaultvalue: '',
-    datatype: {
-      type: 'STRING',
-      format: {
-        type: 'NONE',
-        enumerations: ["test"]
-      }
-    }
-  };
+    name: 'Test name',
+    description: 'Test description',
+    defaultvalue: 'default',
+    datat: 'string',
+    format: 'none'
+  }
   return {
     type: CREATE_NEW_ATTRIBUTE,
     payload: attributeModel
