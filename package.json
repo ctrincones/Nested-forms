@@ -59,6 +59,7 @@
     "react-flexbox-grid": "^0.10.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "shortid": "^2.2.6",
     "tcomb-form": "^0.9.10"
   },
@@ -98,18 +99,20 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app", "airbnb"
+      "react-app",
+      "airbnb"
     ],
     "rules": {
-      "react/prop-types" : "warn",
-      "arrow-body-style" : "warn",
+      "react/prop-types": "warn",
+      "arrow-body-style": "warn",
       "react/no-array-index-key": "warn",
       "react/jsx-no-bind": "warn",
       "import/prefer-default-export": "warn",
       "react/no-string-refs": "warn",
       "no-case-declarations": "warn",
       "react/jsx-filename-extension": "warn",
-      "react/prefer-stateless-function": "warn"
+      "react/prefer-stateless-function": "warn",
+      "prefer-const": "warn"
     }
   }
 }

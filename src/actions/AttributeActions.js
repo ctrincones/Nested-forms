@@ -1,5 +1,10 @@
 import shortid from 'shortid';
-import { CREATE_NEW_ATTRIBUTE, ATTRIBUTE_CHANGED } from './types';
+import {
+  CREATE_NEW_ATTRIBUTE,
+  ATTRIBUTE_CHANGED,
+  DATATYPE_CHANGED,
+  CHANGE_ENUMERATIONS_DEFAULT,
+} from './types';
 
 export const createNewAttribute = (category) => {
   const attributeModel = {
@@ -8,8 +13,9 @@ export const createNewAttribute = (category) => {
     name: 'Test name',
     description: 'Test description',
     defaultValue: 'default',
-    datat: 'string',
+    dataType: 'string',
     format: 'none',
+    enumerations: [],
   };
   return {
     type: CREATE_NEW_ATTRIBUTE,
@@ -18,8 +24,21 @@ export const createNewAttribute = (category) => {
 };
 
 export const changeAttribute = (attributeData) => {
+  return (dispatch) => {
+    dispatch({ type: ATTRIBUTE_CHANGED, payload: attributeData });
+    if (attributeData.field === 'dataType') {
+      dispatch({ type: DATATYPE_CHANGED, payload: attributeData });
+    }
+  };
+};
+
+export const changeEnumerationsDefault = (id, value) => {
+  console.log(id);
   return {
-    type: ATTRIBUTE_CHANGED,
-    payload: attributeData,
+    type: CHANGE_ENUMERATIONS_DEFAULT,
+    payload: {
+      id,
+      value,
+    },
   };
 };

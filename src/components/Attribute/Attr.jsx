@@ -1,51 +1,65 @@
 import React, { Component } from 'react';
 import t from 'tcomb-form';
+import Button from 'muicss/lib/react/button';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { changeAttribute } from './../../actions';
-import { mainAttributes } from './rules';
-import { dataTypeOptions, stringFormatOptions, objectFormatOptions } from './options';
+import { changeAttribute, changeEnumerationsDefault } from './../../actions';
+import { dataTypeStringNoneStruct, baseStruct } from './rules';
+import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
 
 const Form = t.form.Form;
 
 class Attribute extends Component {
   constructor() {
     super();
-    this.state = {
-      formOptions: {
-        fields: {
-          deviceResourceType: {
-            disabled: true,
-            nullOption: false,
-            label: 'Device resource type:',
-          },
-          defaultValue: {
-            label: 'Default value:',
-          },
-          dataType: {
-            factory: t.form.Select,
-            options: dataTypeOptions,
-            nullOption: false,
-            label: 'Data Type',
-          },
-          format: {
-            factory: t.form.Select,
-            options: stringFormatOptions,
-            nullOption: false,
-          },
-        },
-      },
-    };
     this.inputChanged = this.inputChanged.bind(this);
+    this.state = {
+      formOptions,
+      struct: dataTypeStringNoneStruct,
+      enumerationsData: '',
+    };
+  }
+  componentDidUpdate() {
+    console.log(this.props.data);
   }
   inputChanged(value, path) {
+    console.log('here');
+    let attributeData = {
+      id: this.props.data.id,
+    };
     switch (path[0]) {
+      case 'name': {
+        attributeData.field = path[0];
+        attributeData.value = value.name;
+        this.props.changeAttribute(attributeData);
+        break;
+      }
+      case 'description': {
+        attributeData.field = path[0];
+        attributeData.value = value.description;
+        this.props.changeAttribute(attributeData);
+        break;
+      }
+      case 'defaultValue': {
+        attributeData.field = path[0];
+        attributeData.value = value.defaultValue;
+        this.props.changeAttribute(attributeData);
+        break;
+      }
       case 'dataType': {
         let formatOption;
         if (value.dataType === 'object') {
           formatOption = objectFormatOptions;
+          this.setState({
+            struct: baseStruct,
+          });
+          this.props.changeEnumerationsDefault(this.props.data.id, null);
         } else if (value.dataType === 'string') {
           formatOption = stringFormatOptions;
+          this.setState({
+            struct: dataTypeStringNoneStruct,
+          });
+          this.props.changeEnumerationsDefault(this.props.data.id, []);
         }
         this.setState({
           formOptions: {
@@ -59,21 +73,54 @@ class Attribute extends Component {
             },
           },
         });
-        const attributeData = {
-          field: path[0],
-          value: value.dataType,
-          id: this.props.data.id,
-        };
+        attributeData.field = path[0];
+        attributeData.value = value.dataType;
         this.props.changeAttribute(attributeData);
         break;
       }
+      case 'format': {
+        if (value.format === 'none') {
+          this.setState({
+            struct: dataTypeStringNoneStruct,
+          });
+          this.props.changeEnumerationsDefault(this.props.data.id, []);
+        }
+        if (value.format === 'number') {
+          this.setState({
+            struct: baseStruct,
+          });
+          this.props.changeEnumerationsDefault(this.props.data.id, null);
+        }
+        if (value.format === 'boolean' || value.format === 'date-time' || value.format === 'cdata' || value.format === 'uri') {
+          this.setState({
+            struct: baseStruct,
+          });
+          this.props.changeEnumerationsDefault(this.props.data.id, null);
+        }
+        attributeData.field = path[0];
+        attributeData.value = value.format;
+        this.props.changeAttribute(attributeData);
+        break;
+      }
+      case 'enumerationsData':
+        this.setState({ enumerationsData: value.enumerationsData });
+        break;
       default:
         console.log('Default case');
     }
   }
+  renderEnumerationsFieldOptions() {
+    if (this.props.data.enumerations) {
+      return (
+        <Button color="primary">Save</Button>
+      );
+    }
+    return null;
+  }
 
   render() {
     const { name, description, defaultValue, dataType, format } = this.props.data;
+    const { enumerationsData } = this.state;
     return (
       <section>
         <Grid className="Input-grid">
@@ -82,11 +129,12 @@ class Attribute extends Component {
               <div className="form-horizontal">
                 <Form
                   ref="form"
-                  type={mainAttributes}
+                  type={this.state.struct}
                   onChange={this.inputChanged}
                   options={this.state.formOptions}
-                  value={{ name, description, defaultValue, dataType, format }}
+                  value={{ name, description, defaultValue, dataType, format, enumerationsData }}
                 />
+                {this.renderEnumerationsFieldOptions()}
               </div>
             </Col>
           </Row>
@@ -96,4 +144,4 @@ class Attribute extends Component {
   }
 }
 
-export default connect(null, { changeAttribute })(Attribute);
+export default connect(null, { changeAttribute, changeEnumerationsDefault })(Attribute);
