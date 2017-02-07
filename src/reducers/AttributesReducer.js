@@ -1,23 +1,32 @@
-import  { CREATE_NEW_ATTRIBUTE, ATTRIBUTE_CHANGED } from './../actions/types';
 import _ from 'lodash';
+import { CREATE_NEW_ATTRIBUTE, ATTRIBUTE_CHANGED } from './../actions/types';
 
 const INITIAL_STATE = {
-  attributeslist: []
+  attributesList: [],
 };
 
-export default (state = INITIAL_STATE, action ) => {
-  switch(action.type){
+export default (state = INITIAL_STATE, action) => {
+  switch (action.type) {
     case CREATE_NEW_ATTRIBUTE:
-    return {...state, attributeslist: [...state.attributeslist, action.payload ]};
+      return { ...state, attributesList: [...state.attributesList, action.payload] };
     case ATTRIBUTE_CHANGED:
-      const attributeIndex = _.findIndex(state.attributeslist, { id: action.payload.id});
-      switch (action.payload.path) {
-        case 'datat':
-         return { ...state, attributeslist: [...state.attributeslist.slice(0, attributeIndex), {...state.attributeslist[attributeIndex], datat: action.payload.value  } , ...state.attributeslist.slice(attributeIndex + 1)]};
+      const attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
+      switch (action.payload.field) {
+        case 'dataType':
+          return {
+            ...state,
+            attributesList: [
+              ...state.attributesList.slice(0, attributeIndex),
+              {
+                ...state.attributesList[attributeIndex],
+                dataType: action.payload.value,
+              },
+              ...state.attributesList.slice(attributeIndex + 1)],
+          };
         default:
-         return state;
-     }
+          return state;
+      }
     default:
       return state;
   }
-}
+};

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import AttributeForm from './components/AttributeForm';
+import Page from './components/Page';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <AttributeForm />
+      <Page />
     );
   }
 }

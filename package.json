@@ -98,7 +98,18 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app"
-    ]
+      "react-app", "airbnb"
+    ],
+    "rules": {
+      "react/prop-types" : "warn",
+      "arrow-body-style" : "warn",
+      "react/no-array-index-key": "warn",
+      "react/jsx-no-bind": "warn",
+      "import/prefer-default-export": "warn",
+      "react/no-string-refs": "warn",
+      "no-case-declarations": "warn",
+      "react/jsx-filename-extension": "warn",
+      "react/prefer-stateless-function": "warn"
+    }
   }
 }
