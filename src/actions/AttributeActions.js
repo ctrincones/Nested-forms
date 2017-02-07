@@ -4,6 +4,7 @@ import {
   ATTRIBUTE_CHANGED,
   DATATYPE_CHANGED,
   CHANGE_ENUMERATIONS_DEFAULT,
+  ADD_ENUMERATION_DATA,
 } from './types';
 
 export const createNewAttribute = (category) => {
@@ -12,6 +13,7 @@ export const createNewAttribute = (category) => {
     category,
     name: 'Test name',
     description: 'Test description',
+    deviceResourceType: 'DEFAULT VALUE',
     defaultValue: 'default',
     dataType: 'string',
     format: 'none',
@@ -36,6 +38,16 @@ export const changeEnumerationsDefault = (id, value) => {
   console.log(id);
   return {
     type: CHANGE_ENUMERATIONS_DEFAULT,
+    payload: {
+      id,
+      value,
+    },
+  };
+};
+
+export const addEnumerationValue = (id, value) => {
+  return {
+    type: ADD_ENUMERATION_DATA,
     payload: {
       id,
       value,

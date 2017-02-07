@@ -3,7 +3,7 @@ import t from 'tcomb-form';
 import Button from 'muicss/lib/react/button';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { changeAttribute, changeEnumerationsDefault } from './../../actions';
+import { changeAttribute, changeEnumerationsDefault, addEnumerationValue } from './../../actions';
 import { dataTypeStringNoneStruct, baseStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
 
@@ -12,18 +12,20 @@ const Form = t.form.Form;
 class Attribute extends Component {
   constructor() {
     super();
-    this.inputChanged = this.inputChanged.bind(this);
     this.state = {
       formOptions,
       struct: dataTypeStringNoneStruct,
       enumerationsData: '',
     };
+    this.inputChanged = this.inputChanged.bind(this);
+    this.addEnumerationValue = this.addEnumerationValue.bind(this);
   }
   componentDidUpdate() {
     console.log(this.props.data);
   }
   inputChanged(value, path) {
-    console.log('here');
+    const valid = this.refs.form.getValue();
+    console.log(valid);
     let attributeData = {
       id: this.props.data.id,
     };
@@ -109,17 +111,27 @@ class Attribute extends Component {
         console.log('Default case');
     }
   }
+  addEnumerationValue() {
+    this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);
+    this.setState({ enumerationsData: '' });
+  }
   renderEnumerationsFieldOptions() {
     if (this.props.data.enumerations) {
       return (
-        <Button color="primary">Save</Button>
+        <Button color="primary" onClick={this.addEnumerationValue}>Save</Button>
       );
     }
     return null;
   }
 
   render() {
-    const { name, description, defaultValue, dataType, format } = this.props.data;
+    const {
+      name,
+      description,
+      defaultValue,
+      dataType,
+      format,
+      deviceResourceType } = this.props.data;
     const { enumerationsData } = this.state;
     return (
       <section>
@@ -132,7 +144,15 @@ class Attribute extends Component {
                   type={this.state.struct}
                   onChange={this.inputChanged}
                   options={this.state.formOptions}
-                  value={{ name, description, defaultValue, dataType, format, enumerationsData }}
+                  value={{
+                    name,
+                    description,
+                    defaultValue,
+                    dataType,
+                    format,
+                    enumerationsData,
+                    deviceResourceType,
+                  }}
                 />
                 {this.renderEnumerationsFieldOptions()}
               </div>
@@ -144,4 +164,8 @@ class Attribute extends Component {
   }
 }
 
-export default connect(null, { changeAttribute, changeEnumerationsDefault })(Attribute);
+export default connect(null, {
+  changeAttribute,
+  changeEnumerationsDefault,
+  addEnumerationValue,
+})(Attribute);

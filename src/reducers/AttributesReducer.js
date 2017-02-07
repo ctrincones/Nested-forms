@@ -4,6 +4,7 @@ import {
   ATTRIBUTE_CHANGED,
   DATATYPE_CHANGED,
   CHANGE_ENUMERATIONS_DEFAULT,
+  ADD_ENUMERATION_DATA,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -49,6 +50,19 @@ export default (state = INITIAL_STATE, action) => {
           {
             ...state.attributesList[attributeIndex],
             enumerations: action.payload.value,
+          },
+          ...state.attributesList.slice(attributeIndex + 1)],
+      };
+    case ADD_ENUMERATION_DATA:
+      attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
+      return {
+        ...state,
+        attributesList: [
+          ...state.attributesList.slice(0, attributeIndex),
+          {
+            ...state.attributesList[attributeIndex],
+            enumerations: state.attributesList[attributeIndex].enumerations
+            .concat([action.payload.value]),
           },
           ...state.attributesList.slice(attributeIndex + 1)],
       };
