@@ -13,8 +13,11 @@ import {
   dispatchFormError,
   clearValidationErrors,
 } from './../../actions';
-import { dataTypeStringNoneStruct, getBaseStruct, dataTypeStringNumberStruct } from './rules';
+import { getDataTypeStringNoneStruct, getBaseStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
+import componentIsValid from './helpers/componentIsValid';
+import dataTypeChanged from './helpers/dataTypeChanged';
+import formatChanged from './helpers/formatChanged';
 
 const Form = t.form.Form;
 
@@ -23,12 +26,13 @@ class Attribute extends Component {
     super();
     this.state = {
       formOptions,
-      struct: dataTypeStringNoneStruct,
+      struct: getDataTypeStringNoneStruct(),
       enumerationsData: '',
     };
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
     this.deleteAttr = this.deleteAttr.bind(this);
+    this.changeAttributeData.bind(this);
   }
   componentDidMount() {
     const attrIsValid = this.refs.form.getValue();
@@ -36,137 +40,35 @@ class Attribute extends Component {
       this.props.dispatchFormError(this.props.data.id);
     }
   }
+  changeAttributeData(data, field, value) {
+    const attributeData = data;
+    attributeData.field = field;
+    attributeData.value = value;
+    this.props.changeAttribute(attributeData);
+  }
   inputChanged(value, path) {
-    const valid = this.refs.form.getValue();
-    if (valid) {
-      this.props.clearValidationErrors(this.props.data.id);
-    } else {
-      const errorIndex = _.findIndex(this.props.attributes.errors, { id: this.props.data.id });
-      if (!(errorIndex > -1)) {
-        console.log('error is found');
-        this.props.dispatchFormError(this.props.data.id);
-      } else {
-        console.log('error isnt found');
-      }
-    }
+    const changeOrigin = path[0];
+    componentIsValid(this.refs.form, this.props);
+
     let attributeData = {
       id: this.props.data.id,
     };
     switch (path[0]) {
-      case 'name': {
-        attributeData.field = path[0];
-        attributeData.value = value.name;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'description': {
-        attributeData.field = path[0];
-        attributeData.value = value.description;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'defaultValue': {
-        attributeData.field = path[0];
-        attributeData.value = value.defaultValue;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
       case 'dataType': {
-        let formatOption;
-        if (value.dataType === 'object') {
-          formatOption = objectFormatOptions;
-          this.setState({
-            struct: getBaseStruct(),
-          });
-          this.props.changeDatatypeStringNumberDefault(this.props.data.id, null);
-          this.props.changeEnumerationsDefault(this.props.data.id, null);
-        } else if (value.dataType === 'string') {
-          formatOption = stringFormatOptions;
-          this.setState({
-            struct: dataTypeStringNoneStruct,
-          });
-          this.props.changeEnumerationsDefault(this.props.data.id, []);
-        }
-        this.setState({
-          formOptions: {
-            ...this.state.formOptions,
-            fields: {
-              ...this.state.formOptions.fields,
-              format: {
-                ...this.state.formOptions.fields.format,
-                options: formatOption,
-              },
-            },
-          },
-        });
-        attributeData.field = path[0];
-        attributeData.value = value.dataType;
-        this.props.changeAttribute(attributeData);
+        dataTypeChanged(value[changeOrigin], this, this.props);
         break;
       }
       case 'format': {
-        if (value.format === 'none') {
-          this.setState({
-            struct: dataTypeStringNoneStruct,
-          });
-          this.props.changeDatatypeStringNumberDefault(this.props.data.id, null);
-          this.props.changeEnumerationsDefault(this.props.data.id, []);
-        }
-        if (value.format === 'number') {
-          this.setState({
-            struct: dataTypeStringNumberStruct,
-          });
-          this.props.changeDatatypeStringNumberDefault(this.props.data.id, true);
-          this.props.changeEnumerationsDefault(this.props.data.id, null);
-        }
-        if (value.format === 'boolean' || value.format === 'date-time' || value.format === 'cdata' || value.format === 'uri') {
-          this.setState({
-            struct: getBaseStruct(),
-          });
-          this.props.changeEnumerationsDefault(this.props.data.id, null);
-          this.props.changeDatatypeStringNumberDefault(this.props.data.id, null);
-        }
-        attributeData.field = path[0];
-        attributeData.value = value.format;
-        this.props.changeAttribute(attributeData);
+        formatChanged(value[changeOrigin], this, this.props);
         break;
       }
       case 'enumerationsData':
         this.setState({ enumerationsData: value.enumerationsData });
         break;
-      case 'rangeMin': {
-        attributeData.field = path[0];
-        attributeData.value = value.rangeMin;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'rangeMax': {
-        attributeData.field = path[0];
-        attributeData.value = value.rangeMax;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'unitOfMeasurement': {
-        attributeData.field = path[0];
-        attributeData.value = value.unitOfMeasurement;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'precision': {
-        attributeData.field = path[0];
-        attributeData.value = value.precision;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
-      case 'accuracy': {
-        attributeData.field = path[0];
-        attributeData.value = value.accuracy;
-        this.props.changeAttribute(attributeData);
-        break;
-      }
       default:
-        console.log('Default case');
+        break;
     }
+    this.changeAttributeData(attributeData, path[0], value[changeOrigin]);
   }
   addEnumerationValue() {
     this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);
