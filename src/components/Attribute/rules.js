@@ -1,10 +1,5 @@
 import t from 'tcomb-form';
 
-
-const enumDataRule = t.refinement(t.String, () => {
-  return true;
-});
-
 const defaultStruct = {
   name: t.String,
   description: t.String,
@@ -21,14 +16,20 @@ export const getBaseStruct = () => {
 
 export const getDataTypeStringNoneStruct = () => {
   const struct = { ...defaultStruct };
-  struct.enumerationsData = enumDataRule;
+  struct.enumerationsData = t.maybe(t.String);
   const dataTypeStringNoneStruct = t.struct(struct);
   return dataTypeStringNoneStruct;
 };
 
-export const getDataTypeStringNumberStruct = () => {
+export const getDataTypeStringNumberStruct = (rangeMin, rangeMax) => {
+  const rangeMinValue = parseInt(rangeMin, 10);
+  const rangeMaxValue = parseInt(rangeMax, 10);
+  const rangeMinValidation = t.refinement(t.Number, (value) => {
+    return rangeMinValue < rangeMaxValue;
+  });
+  console.log(parseInt(rangeMax, 10));
   const struct = { ...defaultStruct };
-  struct.rangeMin = t.Number;
+  struct.rangeMin = rangeMinValidation;
   struct.rangeMax = t.Number;
   struct.unitOfMeasurement = t.String;
   struct.precision = t.Number;

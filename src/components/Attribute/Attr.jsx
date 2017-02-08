@@ -15,6 +15,7 @@ import {
 } from './../../actions';
 import { getDataTypeStringNoneStruct, getBaseStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
+import { changeFormToStringNumber } from './helpers/changeFormModel';
 import componentIsValid from './helpers/componentIsValid';
 import dataTypeChanged from './helpers/dataTypeChanged';
 import formatChanged from './helpers/formatChanged';
@@ -38,6 +39,12 @@ class Attribute extends Component {
     const attrIsValid = this.refs.form.getValue();
     if (!attrIsValid) {
       this.props.dispatchFormError(this.props.data.id);
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.rangeMin !== null) {
+      console.log(nextProps.data.rangeMin);
+      changeFormToStringNumber(this, nextProps);
     }
   }
   changeAttributeData(data, field, value) {

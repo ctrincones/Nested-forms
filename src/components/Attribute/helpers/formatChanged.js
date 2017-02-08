@@ -1,4 +1,4 @@
-import { getDataTypeStringNoneStruct, getDataTypeStringNumberStruct, getBaseStruct } from './../rules';
+import { getDataTypeStringNoneStruct, getBaseStruct } from './../rules';
 
 const formatChanged = (formatValue, thisValue, props) => {
   if (formatValue === 'none') {
@@ -9,9 +9,6 @@ const formatChanged = (formatValue, thisValue, props) => {
     props.changeEnumerationsDefault(props.data.id, []);
   }
   if (formatValue === 'number') {
-    thisValue.setState({
-      struct: getDataTypeStringNumberStruct(),
-    });
     props.changeDatatypeStringNumberDefault(props.data.id, true);
     props.changeEnumerationsDefault(props.data.id, null);
   }

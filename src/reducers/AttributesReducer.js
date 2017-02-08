@@ -104,7 +104,6 @@ export default (state = INITIAL_STATE, action) => {
       };
     case DELETE_ATTRIBUTE:
       attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
-      console.log('Delete attribute');
       return {
         ...state,
         attributesList: [

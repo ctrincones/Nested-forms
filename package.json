@@ -114,7 +114,8 @@
       "react/prefer-stateless-function": "off",
       "prefer-const": "off",
       "linebreak-style": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "class-methods-use-this": "off"
     }
   }
 }

@@ -47,5 +47,8 @@ export const formOptions = {
       options: stringFormatOptions,
       nullOption: false,
     },
+    enumerationsData: {
+      label: 'Enumerations',
+    },
   },
 };
