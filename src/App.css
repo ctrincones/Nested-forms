@@ -17,6 +17,10 @@ select {
   padding: 25px;
 }
 
+.Delete-button {
+  text-align:center;
+}
+
 .Display-button-container {
   text-align: right;
 }

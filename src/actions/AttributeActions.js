@@ -5,16 +5,20 @@ import {
   DATATYPE_CHANGED,
   CHANGE_ENUMERATIONS_DEFAULT,
   ADD_ENUMERATION_DATA,
+  CHANGE_DATATYPE_STRING_NUMBER_DEFAULT,
+  DELETE_ATTRIBUTE,
+  FORM_VALIDATION_ERROR,
+  CLEAR_VALIDATION_ERRORS,
 } from './types';
 
 export const createNewAttribute = (category) => {
   const attributeModel = {
     id: shortid.generate(),
     category,
-    name: 'Test name',
-    description: 'Test description',
+    name: '',
+    description: '',
     deviceResourceType: 'DEFAULT VALUE',
-    defaultValue: 'default',
+    defaultValue: '',
     dataType: 'string',
     format: 'none',
     enumerations: [],
@@ -50,12 +54,50 @@ export const changeEnumerationsDefault = (id, value) => {
   };
 };
 
+export const changeDatatypeStringNumberDefault = (id, value) => {
+  console.log(id);
+  return {
+    type: CHANGE_DATATYPE_STRING_NUMBER_DEFAULT,
+    payload: {
+      id,
+      value,
+    },
+  };
+};
+
+export const deleteAttribute = (id) => {
+  return {
+    type: DELETE_ATTRIBUTE,
+    payload: {
+      id,
+    },
+  };
+};
+
 export const addEnumerationValue = (id, value) => {
   return {
     type: ADD_ENUMERATION_DATA,
     payload: {
       id,
       value,
+    },
+  };
+};
+
+export const dispatchFormError = (id) => {
+  return {
+    type: FORM_VALIDATION_ERROR,
+    payload: {
+      id,
+    },
+  };
+};
+
+export const clearValidationErrors = (id) => {
+  return {
+    type: CLEAR_VALIDATION_ERRORS,
+    payload: {
+      id,
     },
   };
 };

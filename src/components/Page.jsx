@@ -35,6 +35,8 @@ class Page extends Component {
         </Tab>
       );
     });
+    const formErrorStatus = this.props.attributes.errors.length > 0;
+    const attributeListStatus = this.props.attributes.attributesList.length < 1;
     return (
       <Grid>
         <Row className="header">
@@ -48,15 +50,17 @@ class Page extends Component {
               { categoriesTab }
             </Tabs>
             <div className="Form-buttons-container">
-              <Button color="primary">Save</Button>
+              <Button color="primary" disabled={formErrorStatus}>Save</Button>
               <Button color="danger">Cancel</Button>
             </div>
           </Col>
         </Row>
         <Row>
-          <Col xs={4} xsOffset={4} className="Json-output">
+          <Col xs={8} xsOffset={2} className="Json-output">
             <h2>Live JSON output</h2>
             <pre>{JSON.stringify(this.props.attributes.attributesList, null, 2)}</pre>
+            <h2>Validation errors</h2>
+            <pre>{JSON.stringify(this.props.attributes.errors, null, 2)}</pre>
           </Col>
         </Row>
       </Grid>

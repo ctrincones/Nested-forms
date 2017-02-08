@@ -1,5 +1,6 @@
 import t from 'tcomb-form';
 
+
 const enumDataRule = t.refinement(t.String, () => {
   return true;
 });
