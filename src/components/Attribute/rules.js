@@ -5,7 +5,7 @@ const enumDataRule = t.refinement(t.String, () => {
   return true;
 });
 
-let defaultStruct = {
+const defaultStruct = {
   name: t.String,
   description: t.String,
   deviceResourceType: t.Str,
@@ -20,17 +20,19 @@ export const getBaseStruct = () => {
 };
 
 export const getDataTypeStringNoneStruct = () => {
-  defaultStruct.enumerationsData = enumDataRule;
-  const dataTypeStringNoneStruct = t.struct(defaultStruct);
+  const struct = { ...defaultStruct };
+  struct.enumerationsData = enumDataRule;
+  const dataTypeStringNoneStruct = t.struct(struct);
   return dataTypeStringNoneStruct;
 };
 
 export const getDataTypeStringNumberStruct = () => {
-  defaultStruct.rangeMin = t.Number;
-  defaultStruct.rangeMax = t.Number;
-  defaultStruct.unitOfMeasurement = t.String;
-  defaultStruct.precision = t.Number;
-  defaultStruct.accuracy = t.Number;
-  const dataTypeStringNumberStruct = t.struct(defaultStruct);
+  const struct = { ...defaultStruct };
+  struct.rangeMin = t.Number;
+  struct.rangeMax = t.Number;
+  struct.unitOfMeasurement = t.String;
+  struct.precision = t.Number;
+  struct.accuracy = t.Number;
+  const dataTypeStringNumberStruct = t.struct(struct);
   return dataTypeStringNumberStruct;
 };
