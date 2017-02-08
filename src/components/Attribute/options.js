@@ -1,9 +1,9 @@
 import t from 'tcomb-form';
 import Layout from './Layout/Form';
 
-export const deviceResourceTypeOptions = t.enums({
-  deviceResouceType: 'DEFAULT VALUE',
-});
+export const deviceResourceTypeOptions = [
+  { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
+];
 
 export const dataTypeOptions = [
   { value: 'string', text: 'STRING' },
@@ -30,6 +30,8 @@ export const formOptions = {
       disabled: true,
       nullOption: false,
       label: 'Device resource type:',
+      factory: t.form.Select,
+      options: deviceResourceTypeOptions,
     },
     defaultValue: {
       label: 'Default value:',

@@ -10,6 +10,11 @@ const Form = (locals) => {
       <div>{locals.inputs.dataType}</div>
       <div>{locals.inputs.format}</div>
       <div>{locals.inputs.enumerationsData}</div>
+      <div>{locals.inputs.rangeMin}</div>
+      <div>{locals.inputs.rangeMax}</div>
+      <div>{locals.inputs.unitOfMeasurement}</div>
+      <div>{locals.inputs.precision}</div>
+      <div>{locals.inputs.accuracy}</div>
     </div>
   );
 };

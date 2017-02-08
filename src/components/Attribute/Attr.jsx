@@ -4,7 +4,7 @@ import Button from 'muicss/lib/react/button';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { changeAttribute, changeEnumerationsDefault, addEnumerationValue } from './../../actions';
-import { dataTypeStringNoneStruct, baseStruct } from './rules';
+import { dataTypeStringNoneStruct, getBaseStruct, dataTypeStringNumberStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
 
 const Form = t.form.Form;
@@ -20,10 +20,8 @@ class Attribute extends Component {
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
   }
-  componentDidUpdate() {
-    console.log(this.props.data);
-  }
   inputChanged(value, path) {
+    console.log(value);
     const valid = this.refs.form.getValue();
     console.log(valid);
     let attributeData = {
@@ -53,7 +51,7 @@ class Attribute extends Component {
         if (value.dataType === 'object') {
           formatOption = objectFormatOptions;
           this.setState({
-            struct: baseStruct,
+            struct: getBaseStruct(),
           });
           this.props.changeEnumerationsDefault(this.props.data.id, null);
         } else if (value.dataType === 'string') {
@@ -89,13 +87,13 @@ class Attribute extends Component {
         }
         if (value.format === 'number') {
           this.setState({
-            struct: baseStruct,
+            struct: dataTypeStringNumberStruct,
           });
           this.props.changeEnumerationsDefault(this.props.data.id, null);
         }
         if (value.format === 'boolean' || value.format === 'date-time' || value.format === 'cdata' || value.format === 'uri') {
           this.setState({
-            struct: baseStruct,
+            struct: getBaseStruct(),
           });
           this.props.changeEnumerationsDefault(this.props.data.id, null);
         }

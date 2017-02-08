@@ -18,6 +18,11 @@ export const createNewAttribute = (category) => {
     dataType: 'string',
     format: 'none',
     enumerations: [],
+    rangeMin: null,
+    rangeMax: null,
+    unitOfMeasurement: null,
+    precision: null,
+    accuracy: null,
   };
   return {
     type: CREATE_NEW_ATTRIBUTE,

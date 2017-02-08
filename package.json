@@ -112,7 +112,8 @@
       "no-case-declarations": "warn",
       "react/jsx-filename-extension": "warn",
       "react/prefer-stateless-function": "warn",
-      "prefer-const": "warn"
+      "prefer-const": "warn",
+      "linebreak-style": "off"
     }
   }
 }
