@@ -1,4 +1,5 @@
 import t from 'tcomb-form';
+import _ from 'lodash';
 
 const defaultStruct = {
   name: t.String,
@@ -9,19 +10,36 @@ const defaultStruct = {
   format: t.Str,
 };
 
-export const getBaseStruct = () => {
-  const baseStruct = t.struct(defaultStruct);
+const changeNameStruct = (attributesList, struct) => {
+  const newStruct = struct;
+  const nameValidation = t.refinement(t.String, (value) => {
+    const attributeIndex = _.findIndex(attributesList, { name: value });
+    return !(attributeIndex > -1);
+  });
+  newStruct.name = nameValidation;
+  return newStruct;
+};
+
+export const getBaseStruct = (attributesList) => {
+  let struct = { ...defaultStruct };
+  if (attributesList) {
+    struct = changeNameStruct(attributesList, struct);
+  }
+  const baseStruct = t.struct(struct);
   return baseStruct;
 };
 
-export const getDataTypeStringNoneStruct = () => {
-  const struct = { ...defaultStruct };
+export const getDataTypeStringNoneStruct = (attributesList) => {
+  let struct = { ...defaultStruct };
+  if (attributesList) {
+    struct = changeNameStruct(attributesList, struct);
+  }
   struct.enumerationsData = t.maybe(t.String);
   const dataTypeStringNoneStruct = t.struct(struct);
   return dataTypeStringNoneStruct;
 };
 
-export const getDataTypeStringNumberStruct = (rangeMin, rangeMax) => {
+export const getDataTypeStringNumberStruct = (rangeMin, rangeMax, attributesList) => {
   const rangeMinValue = parseFloat(rangeMin);
   const rangeMaxValue = parseFloat(rangeMax);
   const rangeMinValidation = t.refinement(t.Number, (value) => {
@@ -35,7 +53,10 @@ export const getDataTypeStringNumberStruct = (rangeMin, rangeMax) => {
     const modulus = range % value;
     return modulus === 0;
   });
-  const struct = { ...defaultStruct };
+  let struct = { ...defaultStruct };
+  if (attributesList) {
+    struct = changeNameStruct(attributesList, struct);
+  }
   struct.rangeMin = rangeMinValidation;
   struct.rangeMax = rangeMaxValidation;
   struct.unitOfMeasurement = t.String;

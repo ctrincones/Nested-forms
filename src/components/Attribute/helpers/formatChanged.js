@@ -3,7 +3,8 @@ import { getDataTypeStringNoneStruct, getBaseStruct } from './../rules';
 const formatChanged = (formatValue, thisValue, props) => {
   if (formatValue === 'none') {
     thisValue.setState({
-      struct: getDataTypeStringNoneStruct(),
+      struct: getDataTypeStringNoneStruct(null),
+      structType: 'StringNoneStruct',
     });
     props.changeDatatypeStringNumberDefault(props.data.id, null);
     props.changeEnumerationsDefault(props.data.id, []);
@@ -14,7 +15,8 @@ const formatChanged = (formatValue, thisValue, props) => {
   }
   if (formatValue === 'boolean' || formatValue === 'date-time' || formatValue === 'cdata' || formatValue === 'uri') {
     thisValue.setState({
-      struct: getBaseStruct(),
+      struct: getBaseStruct(null),
+      structType: 'baseStruct',
     });
     props.changeEnumerationsDefault(props.data.id, null);
     props.changeDatatypeStringNumberDefault(props.data.id, null);

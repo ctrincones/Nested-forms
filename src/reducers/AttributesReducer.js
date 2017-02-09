@@ -9,6 +9,7 @@ import {
   DELETE_ATTRIBUTE,
   FORM_VALIDATION_ERROR,
   CLEAR_VALIDATION_ERRORS,
+  DELETE_ENUMERATION_DATA,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -24,16 +25,19 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, attributesList: [...state.attributesList, action.payload] };
     case ATTRIBUTE_CHANGED:
       attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
-      return {
-        ...state,
-        attributesList: [
-          ...state.attributesList.slice(0, attributeIndex),
-          {
-            ...state.attributesList[attributeIndex],
-            [action.payload.field]: action.payload.value,
-          },
-          ...state.attributesList.slice(attributeIndex + 1)],
-      };
+      if (action.payload.field !== 'enumerationsData') {
+        return {
+          ...state,
+          attributesList: [
+            ...state.attributesList.slice(0, attributeIndex),
+            {
+              ...state.attributesList[attributeIndex],
+              [action.payload.field]: action.payload.value,
+            },
+            ...state.attributesList.slice(attributeIndex + 1)],
+        };
+      }
+      return state;
     case DATATYPE_CHANGED:
       attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
       return {
@@ -99,6 +103,25 @@ export default (state = INITIAL_STATE, action) => {
             ...state.attributesList[attributeIndex],
             enumerations: state.attributesList[attributeIndex].enumerations
             .concat([action.payload.value]),
+          },
+          ...state.attributesList.slice(attributeIndex + 1)],
+      };
+    case DELETE_ENUMERATION_DATA:
+      attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
+      console.log([
+        ...state.attributesList[attributeIndex].enumerations.slice(0, action.payload.value),
+        ...state.attributesList[attributeIndex].enumerations.slice(action.payload.value + 1),
+      ]);
+      return {
+        ...state,
+        attributesList: [
+          ...state.attributesList.slice(0, attributeIndex),
+          {
+            ...state.attributesList[attributeIndex],
+            enumerations: [
+              ...state.attributesList[attributeIndex].enumerations.slice(0, action.payload.value),
+              ...state.attributesList[attributeIndex].enumerations.slice(action.payload.value + 1),
+            ],
           },
           ...state.attributesList.slice(attributeIndex + 1)],
       };

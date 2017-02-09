@@ -12,10 +12,11 @@ import {
   deleteAttribute,
   dispatchFormError,
   clearValidationErrors,
+  deleteEnumerationValue,
 } from './../../actions';
-import { getDataTypeStringNoneStruct, getBaseStruct } from './rules';
+import { getDataTypeStringNoneStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
-import { changeFormToStringNumber } from './helpers/changeFormModel';
+import { changeFormToStringNumber, updateFormModel } from './helpers/changeFormModel';
 import componentIsValid from './helpers/componentIsValid';
 import dataTypeChanged from './helpers/dataTypeChanged';
 import formatChanged from './helpers/formatChanged';
@@ -27,8 +28,9 @@ class Attribute extends Component {
     super();
     this.state = {
       formOptions,
-      struct: getDataTypeStringNoneStruct(),
+      struct: getDataTypeStringNoneStruct(null),
       enumerationsData: '',
+      structType: 'StringNoneStruct',
     };
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
@@ -45,6 +47,12 @@ class Attribute extends Component {
     if (nextProps.data.rangeMin !== null) {
       changeFormToStringNumber(this, nextProps, this.refs.form);
     }
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.attributes.attributesList.length >= 1) {
+      updateFormModel(this, nextProps, this.refs.form, nextState.structType);
+    }
+    return true;
   }
   changeAttributeData(data, field, value) {
     const attributeData = data;
@@ -79,6 +87,9 @@ class Attribute extends Component {
     this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);
     this.setState({ enumerationsData: '' });
   }
+  deleteEnumerationValue(index) {
+    this.props.deleteEnumerationValue(this.props.data.id, index);
+  }
   deleteAttr() {
     this.props.deleteAttribute(this.props.data.id);
   }
@@ -86,12 +97,15 @@ class Attribute extends Component {
     if (this.props.data.enumerations) {
       const enumerationData = this.props.data.enumerations.map((value, index) => {
         return (
-          <p key={index}>{value}</p>
+          <div key={index}>
+            <p>{value}</p>
+            <button onClick={this.deleteEnumerationValue.bind(this, index)}>Delete</button>
+          </div>
         );
       });
       return (
         <div>
-          <Button color="primary" onClick={this.addEnumerationValue}>Add</Button>
+          <Button color="primary" disabled={this.state.enumerationsData === ''} onClick={this.addEnumerationValue}>Add</Button>
           {enumerationData}
         </div>
       );
@@ -169,4 +183,5 @@ export default connect(mapStateToProps, {
   deleteAttribute,
   dispatchFormError,
   clearValidationErrors,
+  deleteEnumerationValue,
 })(Attribute);

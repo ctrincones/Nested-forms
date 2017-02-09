@@ -6,14 +6,16 @@ const dataTypeChanged = (dataTypeValue, thisValue, props) => {
   if (dataTypeValue === 'object') {
     formatOption = objectFormatOptions;
     thisValue.setState({
-      struct: getBaseStruct(),
+      struct: getBaseStruct(null),
+      structType: 'baseStruct',
     });
     props.changeDatatypeStringNumberDefault(props.data.id, null);
     props.changeEnumerationsDefault(props.data.id, null);
   } else if (dataTypeValue === 'string') {
     formatOption = stringFormatOptions;
     thisValue.setState({
-      struct: getDataTypeStringNoneStruct(),
+      struct: getDataTypeStringNoneStruct(null),
+      structType: 'StringNoneStruct',
     });
     props.changeEnumerationsDefault(props.data.id, []);
   }

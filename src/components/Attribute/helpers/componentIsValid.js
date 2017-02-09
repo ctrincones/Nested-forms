@@ -4,7 +4,6 @@ const componentIsValid = (ref, props) => {
   const valid = ref.getValue();
   if (valid) {
     props.clearValidationErrors(props.data.id);
-    console.log(valid);
   } else {
     console.log('not valid');
     const errorIndex = _.findIndex(props.attributes.errors, { id: props.data.id });

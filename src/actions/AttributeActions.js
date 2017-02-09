@@ -9,6 +9,7 @@ import {
   DELETE_ATTRIBUTE,
   FORM_VALIDATION_ERROR,
   CLEAR_VALIDATION_ERRORS,
+  DELETE_ENUMERATION_DATA,
 } from './types';
 
 export const createNewAttribute = (category) => {
@@ -77,6 +78,18 @@ export const deleteAttribute = (id) => {
 export const addEnumerationValue = (id, value) => {
   return {
     type: ADD_ENUMERATION_DATA,
+    payload: {
+      id,
+      value,
+    },
+  };
+};
+
+export const deleteEnumerationValue = (id, value) => {
+  console.log(id);
+  console.log(value);
+  return {
+    type: DELETE_ENUMERATION_DATA,
     payload: {
       id,
       value,
