@@ -1,3 +1,4 @@
+import React from 'react';
 import t from 'tcomb-form';
 import Layout from './Layout/Form';
 
@@ -26,6 +27,12 @@ export const objectFormatOptions = [
 export const formOptions = {
   template: Layout,
   fields: {
+    name: {
+      error: <i>Required field</i>,
+    },
+    description: {
+      error: <i>Required field</i>,
+    },
     deviceResourceType: {
       disabled: true,
       nullOption: false,
@@ -35,6 +42,7 @@ export const formOptions = {
     },
     defaultValue: {
       label: 'Default value:',
+      error: <i>Required field</i>,
     },
     dataType: {
       factory: t.form.Select,
@@ -49,6 +57,21 @@ export const formOptions = {
     },
     enumerationsData: {
       label: 'Enumerations',
+    },
+    rangeMin: {
+      error: <i>Invalid value Range min has to be lower than Range max and its required</i>,
+    },
+    rangeMax: {
+      error: <i>Invalid value Range max has to be higher than Range min and its required</i>,
+    },
+    unitOfMeasurement: {
+      error: <i>Required field</i>,
+    },
+    precision: {
+      error: <i>Invalid input</i>,
+    },
+    accuracy: {
+      error: <i>Required field</i>,
     },
   },
 };

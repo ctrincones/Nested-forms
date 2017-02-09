@@ -63,8 +63,8 @@ export default (state = INITIAL_STATE, action) => {
       let parameter = {};
       if (action.payload.value) {
         parameter.rangeMin = 0;
-        parameter.rangeMax = 0;
-        parameter.unitOfMeasurement = '';
+        parameter.rangeMax = 1;
+        parameter.unitOfMeasurement = 'mm';
         parameter.precision = 1;
         parameter.accuracy = 1;
       } else {

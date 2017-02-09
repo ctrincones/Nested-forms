@@ -22,18 +22,25 @@ export const getDataTypeStringNoneStruct = () => {
 };
 
 export const getDataTypeStringNumberStruct = (rangeMin, rangeMax) => {
-  const rangeMinValue = parseInt(rangeMin, 10);
-  const rangeMaxValue = parseInt(rangeMax, 10);
+  const rangeMinValue = parseFloat(rangeMin);
+  const rangeMaxValue = parseFloat(rangeMax);
   const rangeMinValidation = t.refinement(t.Number, (value) => {
-    return rangeMinValue < rangeMaxValue;
+    return value < rangeMaxValue;
   });
-  console.log(parseInt(rangeMax, 10));
+  const rangeMaxValidation = t.refinement(t.Number, (value) => {
+    return value > rangeMinValue;
+  });
+  const precisionAndAccuracyValidation = t.refinement(t.Number, (value) => {
+    const range = rangeMaxValue - rangeMinValue;
+    const modulus = range % value;
+    return modulus === 0;
+  });
   const struct = { ...defaultStruct };
   struct.rangeMin = rangeMinValidation;
-  struct.rangeMax = t.Number;
+  struct.rangeMax = rangeMaxValidation;
   struct.unitOfMeasurement = t.String;
-  struct.precision = t.Number;
-  struct.accuracy = t.Number;
+  struct.precision = precisionAndAccuracyValidation;
+  struct.accuracy = precisionAndAccuracyValidation;
   const dataTypeStringNumberStruct = t.struct(struct);
   return dataTypeStringNumberStruct;
 };

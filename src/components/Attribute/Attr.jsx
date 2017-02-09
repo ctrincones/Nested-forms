@@ -43,8 +43,7 @@ class Attribute extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.data.rangeMin !== null) {
-      console.log(nextProps.data.rangeMin);
-      changeFormToStringNumber(this, nextProps);
+      changeFormToStringNumber(this, nextProps, this.refs.form);
     }
   }
   changeAttributeData(data, field, value) {
@@ -56,7 +55,6 @@ class Attribute extends Component {
   inputChanged(value, path) {
     const changeOrigin = path[0];
     componentIsValid(this.refs.form, this.props);
-
     let attributeData = {
       id: this.props.data.id,
     };
