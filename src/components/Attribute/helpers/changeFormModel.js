@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import { getDataTypeStringNumberStruct, getBaseStruct, getDataTypeStringNoneStruct } from './../rules';
 
-export const changeFormToStringNumber = (thisValue, props, formRef) => {
+export const changeFormToStringNumber = (thisValue, props) => {
   thisValue.setState({
     struct: getDataTypeStringNumberStruct(props.data.rangeMin, props.data.rangeMax, null),
     structType: 'StringNumberStruct',
   });
 };
 
-export const updateFormModel = (thisValue, props, formRef, structType) => {
+export const updateFormModel = (thisValue, props, structType) => {
   const filteredList = _.filter(props.attributes.attributesList, (value) => {
     return value.id !== props.data.id;
   });
@@ -19,6 +19,7 @@ export const updateFormModel = (thisValue, props, formRef, structType) => {
       });
       break;
     case 'StringNumberStruct':
+      console.log(props.data.rangeMin);
       thisValue.setState({
         struct: getDataTypeStringNumberStruct(props.data.rangeMin,
            props.data.rangeMax,
@@ -33,5 +34,4 @@ export const updateFormModel = (thisValue, props, formRef, structType) => {
     default:
       break;
   }
-  formRef.validate();
 };

@@ -11,6 +11,7 @@ import {
   CLEAR_VALIDATION_ERRORS,
   DELETE_ENUMERATION_DATA,
   VALIDATE_ALL_ATTRIBUTES,
+  CLEAR_ALL_ATTRIBUTES_VALIDATION,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -147,6 +148,8 @@ export default (state = INITIAL_STATE, action) => {
       };
     case VALIDATE_ALL_ATTRIBUTES:
       return { ...state, validateAttributes: true };
+    case CLEAR_ALL_ATTRIBUTES_VALIDATION:
+      return { ...state, validateAttributes: false };
     default:
       return state;
   }

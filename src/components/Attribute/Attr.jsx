@@ -14,6 +14,7 @@ import {
   clearValidationErrors,
   deleteEnumerationValue,
   validateAllAttributes,
+  clearAllAttributesValidation,
 } from './../../actions';
 import { getDataTypeStringNoneStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
@@ -45,28 +46,43 @@ class Attribute extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data.rangeMin !== null) {
-      changeFormToStringNumber(this, nextProps, this.refs.form);
-    }
     if (nextProps.attributes.validateAttributes) {
-      this.refs.form.getValue();
+      updateFormModel(this, nextProps, this.state.structType);
+      componentIsValid(this.refs.form, nextProps);
+      const latItemOnlistIndex = nextProps.attributes.attributesList.length - 1;
+      if (nextProps.attributes.attributesList[latItemOnlistIndex].id === nextProps.data.id) {
+        this.props.clearAllAttributesValidation();
+      }
     }
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.attributes.attributesList.length >= 1) {
-      updateFormModel(this, nextProps, this.refs.form, nextState.structType);
-    }
-    return true;
   }
   changeAttributeData(data, field, value) {
     const attributeData = data;
     attributeData.field = field;
     attributeData.value = value;
     this.props.changeAttribute(attributeData);
+    const propOldVal = {
+      value: this.props.data[field],
+    };
+    if (field === 'rangeMin' || field === 'rangeMax') {
+      const rangeInterval = setInterval(() => {
+        if (propOldVal.value !== this.props.data[field]) {
+          updateFormModel(this, this.props, this.state.structType);
+          componentIsValid(this.refs.form, this.props);
+          clearInterval(rangeInterval);
+        }
+      }, 200);
+    } else if (field === 'name') {
+      const nameInterval = setInterval(() => {
+        if (propOldVal.value !== this.props.data.name) {
+          this.props.validateAllAttributes();
+          clearInterval(nameInterval);
+        }
+      }, 200);
+    }
+    componentIsValid(this.refs.form, this.props);
   }
   inputChanged(value, path) {
     const changeOrigin = path[0];
-    componentIsValid(this.refs.form, this.props);
     let attributeData = {
       id: this.props.data.id,
     };
@@ -189,4 +205,5 @@ export default connect(mapStateToProps, {
   clearValidationErrors,
   deleteEnumerationValue,
   validateAllAttributes,
+  clearAllAttributesValidation,
 })(Attribute);

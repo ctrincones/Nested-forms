@@ -1,4 +1,5 @@
 import { getDataTypeStringNoneStruct, getBaseStruct } from './../rules';
+import { changeFormToStringNumber } from './changeFormModel';
 
 const formatChanged = (formatValue, thisValue, props) => {
   if (formatValue === 'none') {
@@ -12,6 +13,7 @@ const formatChanged = (formatValue, thisValue, props) => {
   if (formatValue === 'number') {
     props.changeDatatypeStringNumberDefault(props.data.id, true);
     props.changeEnumerationsDefault(props.data.id, null);
+    changeFormToStringNumber(thisValue, props);
   }
   if (formatValue === 'boolean' || formatValue === 'date-time' || formatValue === 'cdata' || formatValue === 'uri') {
     thisValue.setState({

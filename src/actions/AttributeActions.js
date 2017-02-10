@@ -11,6 +11,7 @@ import {
   CLEAR_VALIDATION_ERRORS,
   DELETE_ENUMERATION_DATA,
   VALIDATE_ALL_ATTRIBUTES,
+  CLEAR_ALL_ATTRIBUTES_VALIDATION,
 } from './types';
 
 export const createNewAttribute = (category) => {
@@ -46,7 +47,6 @@ export const changeAttribute = (attributeData) => {
 };
 
 export const changeEnumerationsDefault = (id, value) => {
-  console.log(id);
   return {
     type: CHANGE_ENUMERATIONS_DEFAULT,
     payload: {
@@ -57,7 +57,6 @@ export const changeEnumerationsDefault = (id, value) => {
 };
 
 export const changeDatatypeStringNumberDefault = (id, value) => {
-  console.log(id);
   return {
     type: CHANGE_DATATYPE_STRING_NUMBER_DEFAULT,
     payload: {
@@ -119,5 +118,11 @@ export const clearValidationErrors = (id) => {
 export const validateAllAttributes = () => {
   return {
     type: VALIDATE_ALL_ATTRIBUTES,
+  };
+};
+
+export const clearAllAttributesValidation = () => {
+  return {
+    type: CLEAR_ALL_ATTRIBUTES_VALIDATION,
   };
 };
