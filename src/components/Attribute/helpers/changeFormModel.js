@@ -6,7 +6,6 @@ export const changeFormToStringNumber = (thisValue, props, formRef) => {
     struct: getDataTypeStringNumberStruct(props.data.rangeMin, props.data.rangeMax, null),
     structType: 'StringNumberStruct',
   });
-  formRef.validate();
 };
 
 export const updateFormModel = (thisValue, props, formRef, structType) => {

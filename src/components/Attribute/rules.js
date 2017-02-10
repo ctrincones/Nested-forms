@@ -43,9 +43,11 @@ export const getDataTypeStringNumberStruct = (rangeMin, rangeMax, attributesList
   const rangeMinValue = parseFloat(rangeMin);
   const rangeMaxValue = parseFloat(rangeMax);
   const rangeMinValidation = t.refinement(t.Number, (value) => {
+    console.log(rangeMaxValue);
     return value < rangeMaxValue;
   });
   const rangeMaxValidation = t.refinement(t.Number, (value) => {
+    console.log(rangeMinValue);
     return value > rangeMinValue;
   });
   const precisionAndAccuracyValidation = t.refinement(t.Number, (value) => {

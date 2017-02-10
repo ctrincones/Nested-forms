@@ -50,7 +50,7 @@ class Page extends Component {
               { categoriesTab }
             </Tabs>
             <div className="Form-buttons-container">
-              <Button color="primary" disabled={formErrorStatus}>Save</Button>
+              <Button color="primary" disabled={formErrorStatus || attributeListStatus}>Save</Button>
               <Button color="danger">Cancel</Button>
             </div>
           </Col>

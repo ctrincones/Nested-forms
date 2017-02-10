@@ -10,11 +10,13 @@ import {
   FORM_VALIDATION_ERROR,
   CLEAR_VALIDATION_ERRORS,
   DELETE_ENUMERATION_DATA,
+  VALIDATE_ALL_ATTRIBUTES,
 } from './../actions/types';
 
 const INITIAL_STATE = {
   attributesList: [],
   errors: [],
+  validateAttributes: false,
 };
 
 let attributeIndex;
@@ -143,6 +145,8 @@ export default (state = INITIAL_STATE, action) => {
           ...state.errors.slice(0, errorIndex),
           ...state.errors.slice(errorIndex + 1)],
       };
+    case VALIDATE_ALL_ATTRIBUTES:
+      return { ...state, validateAttributes: true };
     default:
       return state;
   }

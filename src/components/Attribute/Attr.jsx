@@ -13,6 +13,7 @@ import {
   dispatchFormError,
   clearValidationErrors,
   deleteEnumerationValue,
+  validateAllAttributes,
 } from './../../actions';
 import { getDataTypeStringNoneStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
@@ -46,6 +47,9 @@ class Attribute extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data.rangeMin !== null) {
       changeFormToStringNumber(this, nextProps, this.refs.form);
+    }
+    if (nextProps.attributes.validateAttributes) {
+      this.refs.form.getValue();
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -184,4 +188,5 @@ export default connect(mapStateToProps, {
   dispatchFormError,
   clearValidationErrors,
   deleteEnumerationValue,
+  validateAllAttributes,
 })(Attribute);

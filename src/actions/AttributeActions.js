@@ -10,6 +10,7 @@ import {
   FORM_VALIDATION_ERROR,
   CLEAR_VALIDATION_ERRORS,
   DELETE_ENUMERATION_DATA,
+  VALIDATE_ALL_ATTRIBUTES,
 } from './types';
 
 export const createNewAttribute = (category) => {
@@ -112,5 +113,11 @@ export const clearValidationErrors = (id) => {
     payload: {
       id,
     },
+  };
+};
+
+export const validateAllAttributes = () => {
+  return {
+    type: VALIDATE_ALL_ATTRIBUTES,
   };
 };
