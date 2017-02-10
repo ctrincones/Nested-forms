@@ -130,11 +130,21 @@ export default (state = INITIAL_STATE, action) => {
       };
     case DELETE_ATTRIBUTE:
       attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
+      const attributeDeleteIndex = _.findIndex(state.errors, { id: action.payload.id });
+      let errors;
+      if (attributeDeleteIndex > -1) {
+        errors = [
+          ...state.errors.slice(0, attributeDeleteIndex),
+          ...state.errors.slice(attributeDeleteIndex + 1)];
+      } else {
+        errors = [...state.errors];
+      }
       return {
         ...state,
         attributesList: [
           ...state.attributesList.slice(0, attributeIndex),
           ...state.attributesList.slice(attributeIndex + 1)],
+        errors,
       };
     case FORM_VALIDATION_ERROR:
       return { ...state, errors: state.errors.concat(action.payload) };

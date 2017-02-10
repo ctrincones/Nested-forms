@@ -19,7 +19,6 @@ export const updateFormModel = (thisValue, props, structType) => {
       });
       break;
     case 'StringNumberStruct':
-      console.log(props.data.rangeMin);
       thisValue.setState({
         struct: getDataTypeStringNumberStruct(props.data.rangeMin,
            props.data.rangeMax,

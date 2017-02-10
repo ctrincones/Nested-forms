@@ -47,13 +47,22 @@ class Attribute extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.attributes.validateAttributes) {
-      updateFormModel(this, nextProps, this.state.structType);
-      componentIsValid(this.refs.form, nextProps);
+      this.updateAndValidate(nextProps);
       const latItemOnlistIndex = nextProps.attributes.attributesList.length - 1;
       if (nextProps.attributes.attributesList[latItemOnlistIndex].id === nextProps.data.id) {
         this.props.clearAllAttributesValidation();
       }
     }
+    if (nextProps.data.name !== this.props.data.name) {
+      this.props.validateAllAttributes();
+    }
+  }
+  updateAndValidate(nextProps) {
+    updateFormModel(this, nextProps, this.state.structType);
+    setTimeout(() => {
+      componentIsValid(this.refs.form, nextProps);
+      console.log('Hello');
+    }, 1000);
   }
   changeAttributeData(data, field, value) {
     const attributeData = data;
@@ -70,14 +79,7 @@ class Attribute extends Component {
           componentIsValid(this.refs.form, this.props);
           clearInterval(rangeInterval);
         }
-      }, 200);
-    } else if (field === 'name') {
-      const nameInterval = setInterval(() => {
-        if (propOldVal.value !== this.props.data.name) {
-          this.props.validateAllAttributes();
-          clearInterval(nameInterval);
-        }
-      }, 200);
+      }, 1000);
     }
     componentIsValid(this.refs.form, this.props);
   }
