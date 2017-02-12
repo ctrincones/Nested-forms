@@ -12,6 +12,7 @@ import {
   DELETE_ENUMERATION_DATA,
   VALIDATE_ALL_ATTRIBUTES,
   CLEAR_ALL_ATTRIBUTES_VALIDATION,
+  CLEAR_DELETE_ATTRIBUTE_NOTIFICATION,
 } from './types';
 
 export const createNewAttribute = (category) => {
@@ -124,5 +125,11 @@ export const validateAllAttributes = () => {
 export const clearAllAttributesValidation = () => {
   return {
     type: CLEAR_ALL_ATTRIBUTES_VALIDATION,
+  };
+};
+
+export const clearDeleteAttributeSuccess = () => {
+  return {
+    type: CLEAR_DELETE_ATTRIBUTE_NOTIFICATION,
   };
 };

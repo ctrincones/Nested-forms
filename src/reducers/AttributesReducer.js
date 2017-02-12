@@ -12,12 +12,14 @@ import {
   DELETE_ENUMERATION_DATA,
   VALIDATE_ALL_ATTRIBUTES,
   CLEAR_ALL_ATTRIBUTES_VALIDATION,
+  CLEAR_DELETE_ATTRIBUTE_NOTIFICATION,
 } from './../actions/types';
 
 const INITIAL_STATE = {
   attributesList: [],
   errors: [],
   validateAttributes: false,
+  deleteAttributeSuccess: false,
 };
 
 let attributeIndex;
@@ -145,6 +147,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state.attributesList.slice(0, attributeIndex),
           ...state.attributesList.slice(attributeIndex + 1)],
         errors,
+        deleteAttributeSuccess: true,
       };
     case FORM_VALIDATION_ERROR:
       return { ...state, errors: state.errors.concat(action.payload) };
@@ -160,6 +163,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, validateAttributes: true };
     case CLEAR_ALL_ATTRIBUTES_VALIDATION:
       return { ...state, validateAttributes: false };
+    case CLEAR_DELETE_ATTRIBUTE_NOTIFICATION:
+      return { ...state, deleteAttributeSuccess: false };
     default:
       return state;
   }

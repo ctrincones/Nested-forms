@@ -9,28 +9,32 @@ export const changeFormToStringNumber = (thisValue, props) => {
 };
 
 export const updateFormModel = (thisValue, props, structType) => {
-  const filteredList = _.filter(props.attributes.attributesList, (value) => {
-    return value.id !== props.data.id;
+  return new Promise((resolve, reject) => {
+    const filteredList = _.filter(props.attributes.attributesList, (value) => {
+      return value.id !== props.data.id;
+    });
+    console.log(filteredList);
+    switch (structType) {
+      case 'StringNoneStruct':
+        thisValue.setState({
+          struct: getDataTypeStringNoneStruct(filteredList),
+        });
+        break;
+      case 'StringNumberStruct':
+        thisValue.setState({
+          struct: getDataTypeStringNumberStruct(props.data.rangeMin,
+             props.data.rangeMax,
+             filteredList),
+        });
+        break;
+      case 'baseStruct':
+        thisValue.setState({
+          struct: getBaseStruct(filteredList),
+        });
+        break;
+      default:
+        break;
+    }
+    resolve();
   });
-  switch (structType) {
-    case 'StringNoneStruct':
-      thisValue.setState({
-        struct: getDataTypeStringNoneStruct(filteredList),
-      });
-      break;
-    case 'StringNumberStruct':
-      thisValue.setState({
-        struct: getDataTypeStringNumberStruct(props.data.rangeMin,
-           props.data.rangeMax,
-           filteredList),
-      });
-      break;
-    case 'baseStruct':
-      thisValue.setState({
-        struct: getBaseStruct(filteredList),
-      });
-      break;
-    default:
-      break;
-  }
 };

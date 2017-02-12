@@ -24,6 +24,7 @@ import dataTypeChanged from './helpers/dataTypeChanged';
 import formatChanged from './helpers/formatChanged';
 
 const Form = t.form.Form;
+let nameValidationTimeout = null;
 
 class Attribute extends Component {
   constructor() {
@@ -37,7 +38,7 @@ class Attribute extends Component {
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
     this.deleteAttr = this.deleteAttr.bind(this);
-    this.changeAttributeData.bind(this);
+    this.changeAttributeData = this.changeAttributeData.bind(this);
   }
   componentDidMount() {
     const attrIsValid = this.refs.form.getValue();
@@ -53,35 +54,33 @@ class Attribute extends Component {
         this.props.clearAllAttributesValidation();
       }
     }
-    if (nextProps.data.name !== this.props.data.name) {
-      this.props.validateAllAttributes();
+    if (this.props.data.name !== nextProps.data.name) {
+      clearTimeout(nameValidationTimeout);
+      nameValidationTimeout = setTimeout(() => {
+        this.props.validateAllAttributes();
+      }, 1000);
+    }
+    if (this.props.data.rangeMin !== nextProps.data.rangeMin
+      || this.props.data.rangeMax !== nextProps.data.rangeMax
+      || this.props.data.accuracy !== nextProps.data.accuracy
+      || this.props.data.precision !== nextProps.data.precision
+    ) {
+      if (this.state.structType === 'StringNumberStruct') {
+        this.updateAndValidate(nextProps);
+      }
     }
   }
   updateAndValidate(nextProps) {
-    updateFormModel(this, nextProps, this.state.structType);
-    setTimeout(() => {
+    updateFormModel(this, nextProps, this.state.structType)
+    .then(() => {
       componentIsValid(this.refs.form, nextProps);
-      console.log('Hello');
-    }, 1000);
+    });
   }
   changeAttributeData(data, field, value) {
     const attributeData = data;
     attributeData.field = field;
     attributeData.value = value;
     this.props.changeAttribute(attributeData);
-    const propOldVal = {
-      value: this.props.data[field],
-    };
-    if (field === 'rangeMin' || field === 'rangeMax') {
-      const rangeInterval = setInterval(() => {
-        if (propOldVal.value !== this.props.data[field]) {
-          updateFormModel(this, this.props, this.state.structType);
-          componentIsValid(this.refs.form, this.props);
-          clearInterval(rangeInterval);
-        }
-      }, 1000);
-    }
-    componentIsValid(this.refs.form, this.props);
   }
   inputChanged(value, path) {
     const changeOrigin = path[0];

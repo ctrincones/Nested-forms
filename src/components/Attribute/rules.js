@@ -13,7 +13,11 @@ const defaultStruct = {
 const changeNameStruct = (attributesList, struct) => {
   const newStruct = struct;
   const nameValidation = t.refinement(t.String, (value) => {
+    const attributeObject = {
+      list: attributesList,
+    };
     const attributeIndex = _.findIndex(attributesList, { name: value });
+    console.log(attributeIndex > -1, attributeObject.list, value);
     return !(attributeIndex > -1);
   });
   newStruct.name = nameValidation;
