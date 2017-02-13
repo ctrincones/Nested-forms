@@ -1,3 +1,9 @@
+@import url(//db.onlinewebfonts.com/c/ed0c21561b7eb2cd38dc212fe2411a65?family=FoundryMonolineOT3W08-XBd);
+
+* {
+  font-family: "FoundryMonolineOT3W08-XBd";
+}
+
 input {
   margin: 10px;
 }
@@ -9,20 +15,38 @@ select {
 .Attributes-container {
   height: 400px;
   overflow-y: auto;
-  padding: 40px;
+  border: 1px solid #8bc53f;
+  margin-top: -2px;
+  z-index: -1000;
 }
 
-.Attributes-form {
-  border: 2px solid #2196F3;
-  padding: 25px;
+.Attribute-rows {
+  padding: 0px 25px;
 }
 
 .Delete-button {
   text-align:center;
+  padding: 15px;
+}
+
+.Delete-icon {
+  color: red;
 }
 
 .Display-button-container {
   text-align: right;
+}
+
+.Enumerations-data {
+  text-align: center ;
+}
+
+.Enumeration-value {
+  padding: 5px;
+}
+
+.Form-container {
+  width: 100%;
 }
 
 .Form-buttons-container {
@@ -55,4 +79,74 @@ select {
 .New-attribute-button  {
   text-align: center;
   padding: 40px;
+}
+
+.Main-tab {
+  padding: 0;
+  margin: 0;
+}
+
+.mui-tabs__bar {
+}
+
+.mui-tabs__bar>li {
+    position: relative;
+    color: black;
+    background-color: #d2e8b5;
+    border: 3px solid #fff;
+    border-bottom: 1px solid #8bc53f;
+    z-index: 2000;
+}
+
+.mui-tabs__bar>li:first-child {
+  position: relative;
+  z-index: 1000;
+}
+
+.mui-tabs__bar>li:first-child:after {
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform-origin:bottom left;
+  -ms-transform: skew(20deg);
+  -webkit-transform: skew(20deg);
+  transform: skew(20deg);
+  z-index: -500;
+}
+
+.mui-tabs__bar>li:not(:first-child) {
+  transform-origin:bottom left;
+  -ms-transform: skew(20deg);
+  -webkit-transform: skew(20deg);
+  transform: skew(20deg);
+}
+
+.mui-tabs__bar>li:not(:first-child) > * {
+  -ms-transform: skew(-20deg);
+  -webkit-transform: skew(-20deg);
+  transform: skew(-20deg);
+}
+
+.mui-tabs__bar>li.mui--is-active {
+    border: 1px solid #8bc53f;
+    border-bottom: none;
+    background-color: #fff;
+}
+
+.mui-tabs__bar>li.mui--is-active:first-child {
+    background-color: transparent;
+    border-bottom: none;
+}
+
+.mui-tabs__bar>li.mui--is-active:first-child:after {
+  border-right:1px solid #8bc53f;
+  border-bottom:3px solid #fff;
+}
+
+.mui-tabs__bar>li.mui--is-active>a {
+    color: black;
 }

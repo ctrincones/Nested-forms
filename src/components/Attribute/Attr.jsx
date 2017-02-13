@@ -15,6 +15,7 @@ import {
   deleteEnumerationValue,
   validateAllAttributes,
   clearAllAttributesValidation,
+  clearDeleteAttributeSuccess,
 } from './../../actions';
 import { getDataTypeStringNoneStruct } from './rules';
 import { stringFormatOptions, objectFormatOptions, formOptions } from './options';
@@ -22,9 +23,9 @@ import { changeFormToStringNumber, updateFormModel } from './helpers/changeFormM
 import componentIsValid from './helpers/componentIsValid';
 import dataTypeChanged from './helpers/dataTypeChanged';
 import formatChanged from './helpers/formatChanged';
+import propsValidations from './helpers/propsValidations';
 
 const Form = t.form.Form;
-let nameValidationTimeout = null;
 
 class Attribute extends Component {
   constructor() {
@@ -47,28 +48,7 @@ class Attribute extends Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.attributes.validateAttributes) {
-      this.updateAndValidate(nextProps);
-      const latItemOnlistIndex = nextProps.attributes.attributesList.length - 1;
-      if (nextProps.attributes.attributesList[latItemOnlistIndex].id === nextProps.data.id) {
-        this.props.clearAllAttributesValidation();
-      }
-    }
-    if (this.props.data.name !== nextProps.data.name) {
-      clearTimeout(nameValidationTimeout);
-      nameValidationTimeout = setTimeout(() => {
-        this.props.validateAllAttributes();
-      }, 1000);
-    }
-    if (this.props.data.rangeMin !== nextProps.data.rangeMin
-      || this.props.data.rangeMax !== nextProps.data.rangeMax
-      || this.props.data.accuracy !== nextProps.data.accuracy
-      || this.props.data.precision !== nextProps.data.precision
-    ) {
-      if (this.state.structType === 'StringNumberStruct') {
-        this.updateAndValidate(nextProps);
-      }
-    }
+    propsValidations(nextProps, this);
   }
   updateAndValidate(nextProps) {
     updateFormModel(this, nextProps, this.state.structType)
@@ -118,17 +98,28 @@ class Attribute extends Component {
     if (this.props.data.enumerations) {
       const enumerationData = this.props.data.enumerations.map((value, index) => {
         return (
-          <div key={index}>
-            <p>{value}</p>
-            <button onClick={this.deleteEnumerationValue.bind(this, index)}>Delete</button>
+          <div key={index} className="Enumeration-value">
+            <p>{value} <button onClick={this.deleteEnumerationValue.bind(this, index)}><i className="fa fa-minus-circle Delete-icon" /></button></p>
           </div>
         );
       });
       return (
-        <div>
-          <Button color="primary" disabled={this.state.enumerationsData === ''} onClick={this.addEnumerationValue}>Add</Button>
-          {enumerationData}
-        </div>
+        <Grid className="Input-grid">
+          <Row className="Attribute-rows">
+            <Col xs={4} xsOffset={4} className="Enumerations-data">
+              <Button
+                color="primary"
+                disabled={this.state.enumerationsData === ''}
+                onClick={this.addEnumerationValue}
+              >
+              Add
+            </Button>
+              <div>
+                {enumerationData}
+              </div>
+            </Col>
+          </Row>
+        </Grid>
       );
     }
     return null;
@@ -154,7 +145,7 @@ class Attribute extends Component {
         <Grid className="Input-grid">
           <Row>
             <Col xs={12}>
-              <div className="form-horizontal">
+              <div className="Form-container">
                 <Form
                   ref="form"
                   type={this.state.struct}
@@ -207,4 +198,5 @@ export default connect(mapStateToProps, {
   deleteEnumerationValue,
   validateAllAttributes,
   clearAllAttributesValidation,
+  clearDeleteAttributeSuccess,
 })(Attribute);

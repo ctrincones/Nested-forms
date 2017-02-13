@@ -5,22 +5,15 @@ import Tabs from 'muicss/lib/react/tabs';
 import Tab from 'muicss/lib/react/tab';
 import Button from 'muicss/lib/react/button';
 import TabContent from './TabContent';
+import { CategoriesData } from './FormData';
+
+console.log(CategoriesData);
 
 class Page extends Component {
   constructor() {
     super();
     this.state = {
-      categories: [
-        {
-          category: 'Attributes 1',
-        },
-        {
-          category: 'Attributes 2',
-        },
-        {
-          category: 'Attributes 3',
-        },
-      ],
+      categories: CategoriesData,
     };
   }
   render() {
@@ -45,7 +38,7 @@ class Page extends Component {
           </Col>
         </Row>
         <Row className="Attributes-form">
-          <Col md={12}>
+          <Col md={12} className="Main-tab">
             <Tabs defaultSelectedIndex={0}>
               { categoriesTab }
             </Tabs>
