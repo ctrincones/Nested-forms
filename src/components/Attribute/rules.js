@@ -17,7 +17,6 @@ const changeNameStruct = (attributesList, struct) => {
       list: attributesList,
     };
     const attributeIndex = _.findIndex(attributesList, { name: value });
-    console.log(attributeIndex > -1, attributeObject.list.length, value);
     return !(attributeIndex > -1);
   });
   newStruct.name = nameValidation;

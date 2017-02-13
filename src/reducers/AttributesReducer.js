@@ -150,15 +150,19 @@ export default (state = INITIAL_STATE, action) => {
         deleteAttributeSuccess: true,
       };
     case FORM_VALIDATION_ERROR:
+      console.log('Generate a new error');
       return { ...state, errors: state.errors.concat(action.payload) };
     case CLEAR_VALIDATION_ERRORS:
       const errorIndex = _.findIndex(state.errors, { id: action.payload.id });
-      return {
-        ...state,
-        errors: [
-          ...state.errors.slice(0, errorIndex),
-          ...state.errors.slice(errorIndex + 1)],
-      };
+      if (errorIndex > -1) {
+        return {
+          ...state,
+          errors: [
+            ...state.errors.slice(0, errorIndex),
+            ...state.errors.slice(errorIndex + 1)],
+        };
+      }
+      return state;
     case VALIDATE_ALL_ATTRIBUTES:
       return { ...state, validateAttributes: true };
     case CLEAR_ALL_ATTRIBUTES_VALIDATION:

@@ -5,11 +5,8 @@ let validationTimeout = null;
 
 const propsValidations = (nextProps, thisValue) => {
   if (nextProps.attributes.validateAttributes) {
-    console.log('validate attributes', thisValue.props.data.category);
     thisValue.updateAndValidate(nextProps);
-    console.log('validate', thisValue.props.data.id);
     if (isItLastItem(nextProps.attributes.attributesList, thisValue.props.data.id)) {
-      console.log('Stop validations', nextProps.data.id, nextProps.attributes.attributesList.length);
       thisValue.props.clearAllAttributesValidation();
     }
   }

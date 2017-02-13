@@ -1,7 +1,7 @@
 import React from 'react';
 import t from 'tcomb-form';
 import Layout from './Layout/Form';
-import { validationStandardError } from './variables';
+import { validationStandardError, nameValidationError } from './variables';
 
 export const deviceResourceTypeOptions = [
   { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
@@ -30,7 +30,7 @@ export const formOptions = (options, thisValue) => {
     template: Layout(options, thisValue),
     fields: {
       name: {
-        error: validationStandardError,
+        error: nameValidationError,
       },
       description: {
         error: validationStandardError,

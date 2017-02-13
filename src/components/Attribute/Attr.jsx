@@ -45,10 +45,7 @@ class Attribute extends Component {
     this.updateFormOptions = this.updateFormOptions.bind(this);
   }
   componentDidMount() {
-    const attrIsValid = this.refs.form.getValue();
-    if (!attrIsValid) {
-      this.props.dispatchFormError(this.props.data.id);
-    }
+    componentIsValid(this.refs.form, this.props);
     this.updateFormOptions();
   }
   componentWillReceiveProps(nextProps) {
