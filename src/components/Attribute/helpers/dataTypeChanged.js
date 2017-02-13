@@ -9,7 +9,7 @@ const dataTypeChanged = (dataTypeValue, thisValue, props) => {
     thisValue.setState({
       struct: getBaseStruct(null),
       structType: 'baseStruct',
-      formOptions: formOptions(null),
+      formOptions: formOptions(null, thisValue),
     });
     props.changeDatatypeStringNumberDefault(props.data.id, null);
     props.changeEnumerationsDefault(props.data.id, null);

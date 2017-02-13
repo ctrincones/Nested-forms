@@ -3,7 +3,6 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import Button from 'muicss/lib/react/button';
 
 export default (thisValue) => {
-  console.log(thisValue.props.data.enumerations);
   const enumerationData = thisValue.props.data.enumerations.map((value, index) => {
     return (
       <div key={index} className="Enumeration-value">
@@ -12,18 +11,22 @@ export default (thisValue) => {
     );
   });
   return (
-    <Col xs={4}>
-      <Button
-        color="primary"
-        disabled={thisValue.state.enumerationsData === ''}
-        onClick={thisValue.addEnumerationValue}
-        className="Add-enumeration-button"
-      >
-      Add
-      </Button>
-      <div className="Enumerations-data">
-        {enumerationData}
-      </div>
+    <Col xs={8}>
+      <Row>
+        <Col xs={4}>
+          <Button
+            color="primary"
+            disabled={thisValue.state.enumerationsData === ''}
+            onClick={thisValue.addEnumerationValue}
+            className="Add-enumeration-button"
+          >
+          Add
+          </Button>
+        </Col>
+        <Col xs={4}>
+          {enumerationData}
+        </Col>
+      </Row>
     </Col>
   );
 };

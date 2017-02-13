@@ -29,8 +29,14 @@ class TabContent extends Component {
           { attributesList }
         </div>
         <footer>
-          <div className="New-attribute-button">
-            <Button color="accent" onClick={this.addNewAttribute}>Add new attribute</Button>
+          <div className="New-attribute-container">
+            <Button
+              onClick={this.addNewAttribute}
+              className="New-attribute-button"
+            >
+              <i className="fa fa-plus-circle" />
+               Add new attribute
+            </Button>
           </div>
         </footer>
       </section>

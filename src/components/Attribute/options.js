@@ -1,6 +1,7 @@
 import React from 'react';
 import t from 'tcomb-form';
 import Layout from './Layout/Form';
+import { validationStandardError } from './variables';
 
 export const deviceResourceTypeOptions = [
   { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
@@ -24,15 +25,15 @@ export const objectFormatOptions = [
   { value: 'none', text: 'NONE' },
 ];
 
-export const formOptions = (options) => {
+export const formOptions = (options, thisValue) => {
   return {
-    template: Layout(options),
+    template: Layout(options, thisValue),
     fields: {
       name: {
-        error: <i>Required field</i>,
+        error: validationStandardError,
       },
       description: {
-        error: <i>Required field</i>,
+        error: validationStandardError,
       },
       deviceResourceType: {
         disabled: true,
@@ -43,7 +44,7 @@ export const formOptions = (options) => {
       },
       defaultValue: {
         label: 'Default value:',
-        error: <i>Required field</i>,
+        error: validationStandardError,
       },
       dataType: {
         factory: t.form.Select,
@@ -66,13 +67,13 @@ export const formOptions = (options) => {
         error: <i>Invalid value Range max has to be higher than Range min and its required</i>,
       },
       unitOfMeasurement: {
-        error: <i>Required field</i>,
+        error: validationStandardError,
       },
       precision: {
-        error: <i>Invalid input</i>,
+        error: validationStandardError,
       },
       accuracy: {
-        error: <i>Required field</i>,
+        error: validationStandardError,
       },
     },
   };

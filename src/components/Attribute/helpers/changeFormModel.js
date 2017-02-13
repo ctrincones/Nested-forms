@@ -6,7 +6,7 @@ export const changeFormToStringNumber = (thisValue, props) => {
   thisValue.setState({
     struct: getDataTypeStringNumberStruct(props.data.rangeMin, props.data.rangeMax, null),
     structType: 'StringNumberStruct',
-    formOptions: formOptions(null),
+    formOptions: formOptions(null, thisValue),
   });
 };
 
@@ -15,7 +15,6 @@ export const updateFormModel = (thisValue, props, structType) => {
     const filteredList = _.filter(props.attributes.attributesList, (value) => {
       return value.id !== props.data.id;
     });
-    console.log(filteredList);
     switch (structType) {
       case 'StringNoneStruct':
         thisValue.setState({

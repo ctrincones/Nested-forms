@@ -17,8 +17,9 @@ select {
 }
 
 .Attributes-container {
-  height: 400px;
+  height: 800px;
   overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid #8bc53f;
   margin-top: -2px;
   z-index: -1000;
@@ -62,6 +63,10 @@ select {
   margin: 20px;
 }
 
+.hide-item {
+  display: none;
+}
+
 .header {
   text-align: center;
   height: 100px;
@@ -73,16 +78,27 @@ select {
 }
 
 .Input-grid {
-  width: 100%
+  width: 100%;
+  border-top: 1px solid #AAA;
 }
 
 .Json-output {
   margin-bottom: 200px;
 }
 
-.New-attribute-button  {
-  text-align: center;
-  padding: 40px;
+.New-attribute-container  {
+  padding: 20px;
+  border: 1px solid #8bc53f;
+  border-top: none;
+  background-color: #eaf4dc;
+}
+
+.New-attribute-button {
+  color: #8bc53f;
+}
+
+.New-attribute-button:active {
+  color: #8bc53f;
 }
 
 .Main-tab {
@@ -95,7 +111,7 @@ select {
 }
 
 .mui-btn.mui--is-disabled, .mui-btn:disabled {
-  opacity: .5;
+  opacity: .2;
 }
 
 .mui-tabs__bar {
@@ -161,4 +177,17 @@ select {
 
 .mui-tabs__bar>li.mui--is-active>a {
     color: black;
+}
+
+.mui-btn--primary:active, .mui-btn--primary:focus, .mui-btn--primary:hover {
+    background-color: #6fa030;
+}
+
+.option-button {
+  background-color: #fff;
+}
+
+.Show-inputs {
+  text-align: right;
+  padding: 20px 20px 0px 20px;
 }

@@ -7,8 +7,6 @@ import Button from 'muicss/lib/react/button';
 import TabContent from './TabContent';
 import { CategoriesData } from './FormData';
 
-console.log(CategoriesData);
-
 class Page extends Component {
   constructor() {
     super();

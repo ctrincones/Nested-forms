@@ -36,6 +36,7 @@ class Attribute extends Component {
       struct: getDataTypeStringNoneStruct(null),
       enumerationsData: '',
       structType: 'StringNoneStruct',
+      formVisible: false,
     };
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
@@ -55,7 +56,12 @@ class Attribute extends Component {
   }
   updateFormOptions() {
     setTimeout(() => {
-      this.setState({ formOptions: formOptions(enumerationOptions(this)) });
+      this.setState({ formOptions: formOptions(enumerationOptions(this), this) });
+    }, 600);
+  }
+  updateFormOptionsDefault() {
+    setTimeout(() => {
+      this.setState({ formOptions: formOptions(null, this) });
     }, 600);
   }
   updateAndValidate(nextProps) {
@@ -69,6 +75,22 @@ class Attribute extends Component {
     attributeData.field = field;
     attributeData.value = value;
     this.props.changeAttribute(attributeData);
+  }
+  showInputs() {
+    this.setState({ formVisible: true });
+    if (this.state.structType === 'StringNoneStruct') {
+      this.updateFormOptions();
+    } else {
+      this.updateFormOptionsDefault();
+    }
+  }
+  hideInputs() {
+    this.setState({ formVisible: false });
+    if (this.state.structType === 'StringNoneStruct') {
+      this.updateFormOptions();
+    } else {
+      this.updateFormOptionsDefault();
+    }
   }
   inputChanged(value, path) {
     const changeOrigin = path[0];
@@ -152,7 +174,7 @@ class Attribute extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={12} className="Delete-button">
+            <Col xs={12} className={!this.state.formVisible ? 'hide-item' : 'Delete-button'} >
               <Button color="danger" size="small" onClick={this.deleteAttr}>Delete attribute</Button>
             </Col>
           </Row>

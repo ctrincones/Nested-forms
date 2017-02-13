@@ -22,7 +22,7 @@ const formatChanged = (formatValue, thisValue, props) => {
     thisValue.setState({
       struct: getBaseStruct(null),
       structType: 'baseStruct',
-      formOptions: formOptions(null),
+      formOptions: formOptions(null, thisValue),
     });
     props.changeEnumerationsDefault(props.data.id, null);
     props.changeDatatypeStringNumberDefault(props.data.id, null);

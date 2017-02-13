@@ -1,10 +1,15 @@
+import _ from 'lodash';
+import isItLastItem from './isItLastItem';
+
 let validationTimeout = null;
 
 const propsValidations = (nextProps, thisValue) => {
   if (nextProps.attributes.validateAttributes) {
+    console.log('validate attributes', thisValue.props.data.category);
     thisValue.updateAndValidate(nextProps);
-    const latItemOnlistIndex = nextProps.attributes.attributesList.length - 1;
-    if (nextProps.attributes.attributesList[latItemOnlistIndex].id === nextProps.data.id) {
+    console.log('validate', thisValue.props.data.id);
+    if (isItLastItem(nextProps.attributes.attributesList, thisValue.props.data.id)) {
+      console.log('Stop validations', nextProps.data.id, nextProps.attributes.attributesList.length);
       thisValue.props.clearAllAttributesValidation();
     }
   }
@@ -25,6 +30,7 @@ const propsValidations = (nextProps, thisValue) => {
     || thisValue.props.data.rangeMax !== nextProps.data.rangeMax
     || thisValue.props.data.accuracy !== nextProps.data.accuracy
     || thisValue.props.data.precision !== nextProps.data.precision
+    || thisValue.props.data.unitOfMeasurement !== nextProps.data.unitOfMeasurement
   ) {
     if (thisValue.state.structType === 'StringNumberStruct' && nextProps.data.rangeMin !== null) {
       thisValue.updateAndValidate(nextProps);
