@@ -24,6 +24,7 @@ import componentIsValid from './helpers/componentIsValid';
 import dataTypeChanged from './helpers/dataTypeChanged';
 import formatChanged from './helpers/formatChanged';
 import propsValidations from './helpers/propsValidations';
+import enumerationOptions from './Layout/enumerationOptions';
 
 const Form = t.form.Form;
 
@@ -31,7 +32,7 @@ class Attribute extends Component {
   constructor() {
     super();
     this.state = {
-      formOptions,
+      formOptions: formOptions(null),
       struct: getDataTypeStringNoneStruct(null),
       enumerationsData: '',
       structType: 'StringNoneStruct',
@@ -40,15 +41,22 @@ class Attribute extends Component {
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
     this.deleteAttr = this.deleteAttr.bind(this);
     this.changeAttributeData = this.changeAttributeData.bind(this);
+    this.updateFormOptions = this.updateFormOptions.bind(this);
   }
   componentDidMount() {
     const attrIsValid = this.refs.form.getValue();
     if (!attrIsValid) {
       this.props.dispatchFormError(this.props.data.id);
     }
+    this.updateFormOptions();
   }
   componentWillReceiveProps(nextProps) {
     propsValidations(nextProps, this);
+  }
+  updateFormOptions() {
+    setTimeout(() => {
+      this.setState({ formOptions: formOptions(enumerationOptions(this)) });
+    }, 600);
   }
   updateAndValidate(nextProps) {
     updateFormModel(this, nextProps, this.state.structType)
@@ -77,7 +85,10 @@ class Attribute extends Component {
         break;
       }
       case 'enumerationsData':
-        this.setState({ enumerationsData: value.enumerationsData });
+        this.setState({
+          enumerationsData: value.enumerationsData,
+        });
+        this.updateFormOptions();
         break;
       default:
         break;
@@ -87,44 +98,15 @@ class Attribute extends Component {
   addEnumerationValue() {
     this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);
     this.setState({ enumerationsData: '' });
+    this.updateFormOptions();
   }
   deleteEnumerationValue(index) {
     this.props.deleteEnumerationValue(this.props.data.id, index);
+    this.updateFormOptions();
   }
   deleteAttr() {
     this.props.deleteAttribute(this.props.data.id);
   }
-  renderEnumerationsFieldOptions() {
-    if (this.props.data.enumerations) {
-      const enumerationData = this.props.data.enumerations.map((value, index) => {
-        return (
-          <div key={index} className="Enumeration-value">
-            <p>{value} <button onClick={this.deleteEnumerationValue.bind(this, index)}><i className="fa fa-minus-circle Delete-icon" /></button></p>
-          </div>
-        );
-      });
-      return (
-        <Grid className="Input-grid">
-          <Row className="Attribute-rows">
-            <Col xs={4} xsOffset={4} className="Enumerations-data">
-              <Button
-                color="primary"
-                disabled={this.state.enumerationsData === ''}
-                onClick={this.addEnumerationValue}
-              >
-              Add
-            </Button>
-              <div>
-                {enumerationData}
-              </div>
-            </Col>
-          </Row>
-        </Grid>
-      );
-    }
-    return null;
-  }
-
   render() {
     const {
       name,
@@ -166,7 +148,6 @@ class Attribute extends Component {
                     accuracy,
                   }}
                 />
-                {this.renderEnumerationsFieldOptions()}
               </div>
             </Col>
           </Row>
