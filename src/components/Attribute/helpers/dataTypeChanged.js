@@ -1,5 +1,6 @@
 import { stringFormatOptions, objectFormatOptions, formOptions } from './../options';
 import { getDataTypeStringNoneStruct, getBaseStruct } from './../rules';
+import componentIsValid from './componentIsValid';
 import enumerationOptions from './../Layout/enumerationOptions';
 
 const dataTypeChanged = (dataTypeValue, thisValue, props) => {
@@ -7,10 +8,15 @@ const dataTypeChanged = (dataTypeValue, thisValue, props) => {
   if (dataTypeValue === 'object') {
     formatOption = objectFormatOptions;
     thisValue.setState({
-      struct: getBaseStruct(null),
+      struct: getBaseStruct(null, dataTypeValue),
       structType: 'baseStruct',
-      formOptions: formOptions(null, thisValue),
     });
+    setTimeout(() => {
+      componentIsValid(thisValue.refs.form, props);
+      thisValue.setState({
+        formOptions: formOptions(null, thisValue, true),
+      });
+    }, 600);
     props.changeDatatypeStringNumberDefault(props.data.id, null);
   } else if (dataTypeValue === 'string') {
     formatOption = stringFormatOptions;
@@ -19,6 +25,9 @@ const dataTypeChanged = (dataTypeValue, thisValue, props) => {
       structType: 'StringNoneStruct',
     });
     thisValue.updateFormOptions();
+    setTimeout(() => {
+      componentIsValid(thisValue.refs.form, props);
+    }, 600);
   }
   props.changeEnumerationsDefault(props.data.id, []);
   setTimeout(() => {

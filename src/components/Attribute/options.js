@@ -30,7 +30,8 @@ export const objectFormatOptions = [
   { value: 'none', text: 'NONE' },
 ];
 
-export const formOptions = (options, thisValue) => {
+export const formOptions = (options, thisValue, disableFormatAndDefault) => {
+  const disableFormatAndDefaultValue = false || disableFormatAndDefault;
   return {
     template: Layout(options, thisValue),
     fields: {
@@ -50,6 +51,7 @@ export const formOptions = (options, thisValue) => {
       defaultValue: {
         label: 'Default value:',
         error: validationStandardError,
+        disabled: disableFormatAndDefaultValue,
       },
       dataType: {
         factory: t.form.Select,
@@ -61,6 +63,7 @@ export const formOptions = (options, thisValue) => {
         factory: t.form.Select,
         options: stringFormatOptions,
         nullOption: false,
+        disabled: disableFormatAndDefaultValue,
       },
       enumerationsData: {
         label: 'Enumerations',

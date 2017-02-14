@@ -11,6 +11,7 @@ export const changeFormToStringNumber = (thisValue, props) => {
 };
 
 export const updateFormModel = (thisValue, props, structType) => {
+  const dataType = props.data.dataType;
   return new Promise((resolve, reject) => {
     const filteredList = _.filter(props.attributes.attributesList, (value) => {
       return value.id !== props.data.id;
@@ -30,7 +31,7 @@ export const updateFormModel = (thisValue, props, structType) => {
         break;
       case 'baseStruct':
         thisValue.setState({
-          struct: getBaseStruct(filteredList),
+          struct: getBaseStruct(filteredList, dataType),
         });
         break;
       default:

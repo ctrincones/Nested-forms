@@ -23,10 +23,14 @@ const changeNameStruct = (attributesList, struct) => {
   return newStruct;
 };
 
-export const getBaseStruct = (attributesList) => {
+export const getBaseStruct = (attributesList, dataType) => {
+  const dataTypeValue = dataType || null;
   let struct = { ...defaultStruct };
   if (attributesList) {
     struct = changeNameStruct(attributesList, struct);
+  }
+  if (dataTypeValue === 'object') {
+    struct.defaultValue = t.maybe(t.String);
   }
   const baseStruct = t.struct(struct);
   return baseStruct;
