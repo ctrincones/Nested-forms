@@ -3,15 +3,19 @@
 Form that can manage an attributes list and displays the output in JSON format live built with React-Redux
 
 ####Installation
+
 Clone this repository and branch: git clone -b t-comb-branch https://github.com/ctrincones/Nested-forms.git
 
 Install project dependencies: npm install
+
 Start development server: npm start
 
 ####Features
 
 -The form has a fake save button that will get disabled if:
+
 • One of the attributes name is duplicated among them.
+
 • One of the attribute component is invalid
 
 -The form has Tabs for each of the attributes categories
