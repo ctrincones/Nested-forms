@@ -6,7 +6,7 @@ import { validationStandardError,
   precisionError,
   rangeMinError,
   rangeMaxError,
-  accuracyError } from './variables';
+  accuracyError } from './errorMessages';
 
 export const deviceResourceTypeOptions = [
   { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
