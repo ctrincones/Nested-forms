@@ -113,10 +113,6 @@ export default (state = INITIAL_STATE, action) => {
       };
     case DELETE_ENUMERATION_DATA:
       attributeIndex = _.findIndex(state.attributesList, { id: action.payload.id });
-      console.log([
-        ...state.attributesList[attributeIndex].enumerations.slice(0, action.payload.value),
-        ...state.attributesList[attributeIndex].enumerations.slice(action.payload.value + 1),
-      ]);
       return {
         ...state,
         attributesList: [
@@ -150,7 +146,6 @@ export default (state = INITIAL_STATE, action) => {
         deleteAttributeSuccess: true,
       };
     case FORM_VALIDATION_ERROR:
-      console.log('Generate a new error');
       return { ...state, errors: state.errors.concat(action.payload) };
     case CLEAR_VALIDATION_ERRORS:
       const errorIndex = _.findIndex(state.errors, { id: action.payload.id });

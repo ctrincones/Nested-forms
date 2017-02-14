@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from 'muicss/lib/react/button';
-import { createNewAttribute } from './../actions';
-import Attr from './Attribute/Attr';
+import { createNewAttribute } from './../../actions';
+import Attr from './../Attribute/Attr';
 
 class TabContent extends Component {
   constructor() {

@@ -5,7 +5,7 @@ import Tabs from 'muicss/lib/react/tabs';
 import Tab from 'muicss/lib/react/tab';
 import Button from 'muicss/lib/react/button';
 import TabContent from './TabContent';
-import { CategoriesData } from './FormData';
+import { CategoriesData } from './../FormData';
 
 class Page extends Component {
   constructor() {
@@ -50,8 +50,6 @@ class Page extends Component {
           <Col xs={8} xsOffset={2} className="Json-output">
             <h2>Live JSON output</h2>
             <pre>{JSON.stringify(this.props.attributes.attributesList, null, 2)}</pre>
-            <h2>Validation errors</h2>
-            <pre>{JSON.stringify(this.props.attributes.errors, null, 2)}</pre>
           </Col>
         </Row>
       </Grid>

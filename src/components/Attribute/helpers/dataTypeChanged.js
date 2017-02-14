@@ -12,16 +12,15 @@ const dataTypeChanged = (dataTypeValue, thisValue, props) => {
       formOptions: formOptions(null, thisValue),
     });
     props.changeDatatypeStringNumberDefault(props.data.id, null);
-    props.changeEnumerationsDefault(props.data.id, null);
   } else if (dataTypeValue === 'string') {
     formatOption = stringFormatOptions;
     thisValue.setState({
       struct: getDataTypeStringNoneStruct(null),
       structType: 'StringNoneStruct',
     });
-    props.changeEnumerationsDefault(props.data.id, []);
     thisValue.updateFormOptions();
   }
+  props.changeEnumerationsDefault(props.data.id, []);
   setTimeout(() => {
     thisValue.setState({
       formOptions: {

@@ -1,7 +1,12 @@
 import React from 'react';
 import t from 'tcomb-form';
 import Layout from './Layout/Form';
-import { validationStandardError, nameValidationError } from './variables';
+import { validationStandardError,
+  nameValidationError,
+  precisionError,
+  rangeMinError,
+  rangeMaxError,
+  accuracyError } from './variables';
 
 export const deviceResourceTypeOptions = [
   { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
@@ -61,19 +66,19 @@ export const formOptions = (options, thisValue) => {
         label: 'Enumerations',
       },
       rangeMin: {
-        error: <i>Invalid value Range min has to be lower than Range max and its required</i>,
+        error: rangeMinError,
       },
       rangeMax: {
-        error: <i>Invalid value Range max has to be higher than Range min and its required</i>,
+        error: rangeMaxError,
       },
       unitOfMeasurement: {
         error: validationStandardError,
       },
       precision: {
-        error: validationStandardError,
+        error: precisionError,
       },
       accuracy: {
-        error: validationStandardError,
+        error: accuracyError,
       },
     },
   };

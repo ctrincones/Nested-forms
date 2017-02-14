@@ -6,8 +6,8 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import _ from 'lodash';
 import {
   changeAttribute,
-  changeEnumerationsDefault,
   addEnumerationValue,
+  changeEnumerationsDefault,
   changeDatatypeStringNumberDefault,
   deleteAttribute,
   dispatchFormError,
@@ -189,8 +189,8 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   changeAttribute,
-  changeEnumerationsDefault,
   addEnumerationValue,
+  changeEnumerationsDefault,
   changeDatatypeStringNumberDefault,
   deleteAttribute,
   dispatchFormError,

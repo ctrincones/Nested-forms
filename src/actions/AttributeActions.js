@@ -87,8 +87,6 @@ export const addEnumerationValue = (id, value) => {
 };
 
 export const deleteEnumerationValue = (id, value) => {
-  console.log(id);
-  console.log(value);
   return {
     type: DELETE_ENUMERATION_DATA,
     payload: {

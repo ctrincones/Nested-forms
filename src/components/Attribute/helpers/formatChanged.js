@@ -10,12 +10,10 @@ const formatChanged = (formatValue, thisValue, props) => {
       structType: 'StringNoneStruct',
     });
     props.changeDatatypeStringNumberDefault(props.data.id, null);
-    props.changeEnumerationsDefault(props.data.id, []);
     thisValue.updateFormOptions();
   }
   if (formatValue === 'number') {
     props.changeDatatypeStringNumberDefault(props.data.id, true);
-    props.changeEnumerationsDefault(props.data.id, null);
     changeFormToStringNumber(thisValue, props);
   }
   if (formatValue === 'boolean' || formatValue === 'date-time' || formatValue === 'cdata' || formatValue === 'uri') {
@@ -24,9 +22,9 @@ const formatChanged = (formatValue, thisValue, props) => {
       structType: 'baseStruct',
       formOptions: formOptions(null, thisValue),
     });
-    props.changeEnumerationsDefault(props.data.id, null);
     props.changeDatatypeStringNumberDefault(props.data.id, null);
   }
+  props.changeEnumerationsDefault(props.data.id, []);
 };
 
 export default formatChanged;
