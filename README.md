@@ -28,11 +28,17 @@ Internally all the attributes belong to the same list but each one has a propert
 -The Attribute component encapsulates validation, logic and controls the form’s save button when an attribute is invalid by dispatching an actions that creates a new error in the application state handled by Redux.
 
 The attribute has all the following properties:
+
 • Name: is required and has to be Unique across all the attributes
+
 • Description
+
 • Device Resource Type: always disabled.
+
 • Default Value
+
 • Data Type
+
 • Format
 
 <b>Data Type: String</b>
@@ -58,6 +64,7 @@ Accuracy acts the same than Precision.
 <b>Data Type: Object</b>
 
 • Default Value is disabled
+
 • Format is disabled.
 
 
