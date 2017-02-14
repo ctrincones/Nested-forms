@@ -29,14 +29,14 @@ class Page extends Component {
     const formErrorStatus = this.props.attributes.errors.length > 0;
     const attributeListStatus = this.props.attributes.attributesList.length < 1;
     return (
-      <Grid>
+      <Grid className="App-container">
         <Row className="header">
           <Col md={12}>
             <h2>Nested Form</h2>
           </Col>
         </Row>
         <Row className="Attributes-form">
-          <Col md={12} className="Main-tab">
+          <Col md={7} className="Main-tab">
             <Tabs defaultSelectedIndex={0}>
               { categoriesTab }
             </Tabs>
@@ -45,10 +45,8 @@ class Page extends Component {
               <Button color="danger">Cancel</Button>
             </div>
           </Col>
-        </Row>
-        <Row>
-          <Col xs={8} xsOffset={2} className="Json-output">
-            <h2>Live JSON output</h2>
+          <Col xs={5} className="Json-output">
+            <h2 className="Json-output-title">Live JSON output</h2>
             <pre>{JSON.stringify(this.props.attributes.attributesList, null, 2)}</pre>
           </Col>
         </Row>

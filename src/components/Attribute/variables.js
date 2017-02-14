@@ -5,13 +5,11 @@ export const nameValidationError =
   <i>Required field, attributes names must be unique and cant be empty Strings</i>;
 export const precisionError =
   (<i>
-    Required field, Precision value must be a number
-    that allows to go from through Range Min to Range Max without exceding it
+     Invalid precision value
   </i>);
 export const accuracyError =
   (<i>
-    Required field, Accuracy value must be a number
-    that allows to go from through Range Min to Range Max without exceding it
+    Invalid accuracy value
   </i>);
 
 export const rangeMinError =

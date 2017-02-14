@@ -36,7 +36,7 @@ class Attribute extends Component {
       struct: getDataTypeStringNoneStruct(null),
       enumerationsData: '',
       structType: 'StringNoneStruct',
-      formVisible: false,
+      formVisible: true,
     };
     this.inputChanged = this.inputChanged.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);

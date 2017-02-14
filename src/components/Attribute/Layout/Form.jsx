@@ -26,7 +26,7 @@ const Form = (options, thisValue) => {
     if (thisValue) {
       formNotVisible = !thisValue.state.formVisible;
     } else {
-      formNotVisible = true;
+      formNotVisible = false;
     }
     return (
       <div>
