@@ -39,7 +39,6 @@ class Attribute extends Component {
       formVisible: true,
     };
     this.inputChanged = this.inputChanged.bind(this);
-    this.focusInput = this.focusInput.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
     this.deleteAttr = this.deleteAttr.bind(this);
     this.changeAttributeData = this.changeAttributeData.bind(this);
@@ -114,9 +113,6 @@ class Attribute extends Component {
         break;
     }
     this.changeAttributeData(attributeData, path[0], value[changeOrigin]);
-  }
-  focusInput() {
-    console.log('This is a focus of input');
   }
   addEnumerationValue() {
     this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);

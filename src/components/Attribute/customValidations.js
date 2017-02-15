@@ -1,7 +1,6 @@
 import t from 'tcomb-form';
 
 export const validator = (dataType, validationsArray, optionalValidationsParams) => {
-  console.log('Validating');
   return t.refinement(dataType, (value) => {
     let validationStatus = [];
     for (let i = 0; i < validationsArray.length; i += 1) {

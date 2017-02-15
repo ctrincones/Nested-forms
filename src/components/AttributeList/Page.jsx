@@ -31,8 +31,11 @@ class Page extends Component {
     return (
       <Grid className="App-container">
         <Row className="header">
-          <Col md={12}>
+          <Col xs={7}>
             <h2>Nested Form</h2>
+          </Col>
+          <Col xs={5}>
+            <h2 className="Json-output-title">Live JSON output</h2>
           </Col>
         </Row>
         <Row className="Attributes-form">
@@ -46,8 +49,7 @@ class Page extends Component {
             </div>
           </Col>
           <Col xs={5} className="Json-output">
-            <h2 className="Json-output-title">Live JSON output</h2>
-            <pre>{JSON.stringify(this.props.attributes.attributesList, null, 2)}</pre>
+            <pre className="Json-data-container">{JSON.stringify(this.props.attributes.attributesList, null, 2)}</pre>
           </Col>
         </Row>
       </Grid>

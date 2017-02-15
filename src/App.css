@@ -72,7 +72,6 @@ select {
 }
 
 .header {
-  text-align: center;
   height: 100px;
   padding: 40px;
 }
@@ -84,6 +83,14 @@ select {
 .Input-grid {
   width: 100%;
   border-top: 1px solid #AAA;
+}
+
+.Json-data-container {
+  position: fixed;
+  padding:20px;
+  width: 500px;
+  height: 500px;
+  overflow-y: auto;
 }
 
 .Json-output {
