@@ -39,14 +39,15 @@ class Attribute extends Component {
       formVisible: true,
     };
     this.inputChanged = this.inputChanged.bind(this);
+    this.focusInput = this.focusInput.bind(this);
     this.addEnumerationValue = this.addEnumerationValue.bind(this);
     this.deleteAttr = this.deleteAttr.bind(this);
     this.changeAttributeData = this.changeAttributeData.bind(this);
     this.updateFormOptions = this.updateFormOptions.bind(this);
   }
   componentDidMount() {
-    componentIsValid(this.refs.form, this.props);
     this.updateFormOptions();
+    this.props.dispatchFormError(this.props.data.id);
   }
   componentWillReceiveProps(nextProps) {
     propsValidations(nextProps, this);
@@ -114,6 +115,9 @@ class Attribute extends Component {
     }
     this.changeAttributeData(attributeData, path[0], value[changeOrigin]);
   }
+  focusInput() {
+    console.log('This is a focus of input');
+  }
   addEnumerationValue() {
     this.props.addEnumerationValue(this.props.data.id, this.state.enumerationsData);
     this.setState({ enumerationsData: '' });
@@ -151,6 +155,7 @@ class Attribute extends Component {
                   ref="form"
                   type={this.state.struct}
                   onChange={this.inputChanged}
+                  onFocus={this.focusInput}
                   options={this.state.formOptions}
                   value={{
                     name,

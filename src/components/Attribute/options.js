@@ -7,6 +7,7 @@ import { validationStandardError,
   rangeMinError,
   rangeMaxError,
   accuracyError } from './errorMessages';
+import componentIsValid from './helpers/componentIsValid';
 
 export const deviceResourceTypeOptions = [
   { value: 'DEFAULT VALUE', text: 'DEFAULT VALUE' },
@@ -37,6 +38,11 @@ export const formOptions = (options, thisValue, disableFormatAndDefault) => {
     fields: {
       name: {
         error: nameValidationError,
+        attrs: {
+          onFocus: () => {
+            componentIsValid(thisValue.refs.form, thisValue.props);
+          },
+        },
       },
       description: {
         error: validationStandardError,
