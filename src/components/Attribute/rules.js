@@ -1,5 +1,6 @@
 import t from 'tcomb-form';
 import _ from 'lodash';
+import { validator } from './customValidations';
 
 const defaultStruct = {
   name: t.String,
@@ -12,13 +13,11 @@ const defaultStruct = {
 
 const changeNameStruct = (attributesList, struct) => {
   const newStruct = struct;
-  const nameValidation = t.refinement(t.String, (value) => {
-    const attributeObject = {
-      list: attributesList,
-    };
-    const attributeIndex = _.findIndex(attributesList, { name: value });
+  const nameValidatorFunct = (value, listOfAttributes) => {
+    const attributeIndex = _.findIndex(listOfAttributes, { name: value });
     return !(attributeIndex > -1);
-  });
+  };
+  const nameValidation = validator(t.String, [nameValidatorFunct], attributesList);
   newStruct.name = nameValidation;
   return newStruct;
 };
@@ -49,12 +48,14 @@ export const getDataTypeStringNoneStruct = (attributesList) => {
 export const getDataTypeStringNumberStruct = (rangeMin, rangeMax, attributesList) => {
   const rangeMinValue = parseFloat(rangeMin);
   const rangeMaxValue = parseFloat(rangeMax);
-  const rangeMinValidation = t.refinement(t.Number, (value) => {
-    return value < rangeMaxValue;
-  });
-  const rangeMaxValidation = t.refinement(t.Number, (value) => {
-    return value > rangeMinValue;
-  });
+  const rangeMinValidationFunct = (val, maxRange) => {
+    return val < maxRange;
+  };
+  const rangeMinValidation = validator(t.Number, [rangeMinValidationFunct], rangeMax);
+  const rangeMaxValidationFunct = (val, minRange) => {
+    return val > minRange;
+  };
+  const rangeMaxValidation = validator(t.Number, [rangeMaxValidationFunct], rangeMin);
   const precisionAndAccuracyValidation = t.refinement(t.Number, (value) => {
     const range = rangeMaxValue - rangeMinValue;
     const modulus = range % value;
